@@ -1,0 +1,22 @@
+/*body {*/
+	/*background: #9ea3a3;*/
+	/*color: #adadad;*/
+	/*background: url(../img/bg.jpg);*/
+/*}*/
+
+/*#header*/
+/*{*/
+    /*margin-top: 30px;*/
+    /*text-align: center;*/
+/*}*/
+
+#page {
+    margin-top: 30px;
+    /*background: rgba(65, 70, 70, 0.4);*/
+    /*border: solid 1px #474949;*/
+    /*border-top: 0;*/
+}
+#content {
+    margin: 10px;
+}
+

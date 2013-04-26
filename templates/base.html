@@ -1,0 +1,58 @@
+{% load url from future %}
+{#{% load static %}#}
+{#{% get_static_prefix as STATIC_URL %}#}
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Recipe Project{% endblock %}</title>
+
+{#    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}bootstrap/css/bootswatch.less" />#}
+{#    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />#}
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css"%}" />
+    <link rel="stylesheet" type="text/css" href="{% static "bootstrap/css/bootstrap.min.css"%}" />
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+
+    <script src="{% static "js/main.js"%}"></script>
+
+    {% block head %}{% endblock %}
+
+</head>
+<body>
+
+    <div class="subnav">
+        <ul class="nav nav-pills">
+{#            <li class="active"><a href="/">Recipe List</a></li>#}
+            <li><a href="/">Recipe List</a></li>
+
+            {% if user.is_authenticated %}
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/create">Create a New Recipe</a></li>
+            <li><a href="/logout">log out</a></li>
+            {% else %}
+            <li> <a href="/login/">login</a></li>
+            <li><a href="/register/">register</a> </li>
+            {% endif %}
+
+        </ul>
+    </div>
+    <div class="container">
+
+
+
+        <section id="page">
+            <div id="content">
+                <section>
+                    {% block body %}
+
+                    {% endblock %}
+                </section>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

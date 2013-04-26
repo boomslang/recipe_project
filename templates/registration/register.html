@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
+{% block body %}
+    <div class="row"><div class="span10 offset1">
+        <span>Fill the form to register.</span>
+        <form method="post" action="" class="form-horizontal well">{% csrf_token %}
+{#            <table>#}
+                {{ formset }}
+{#                <tr>#}
+{#                    <td>#}
+                        <input type="submit" name="submit" value="Register">
+{#                    </td>#}
+{#                </tr>#}
+{#            </table>#}
+        </form>
+    </div></div>
+{% endblock %}
