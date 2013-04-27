@@ -23,8 +23,8 @@ def register(request):
             custom.save()
             newUser = authenticate(username=request.POST['username'],password=request.POST['password'])
             login(request, newUser)
-
-            return render_to_response("registration/register_success.html")
+            d = {"user" : request.user}
+            return render_to_response("registration/register_success.html", d)
         else:
             d = {"formset": formset}
             d.update(csrf(request))
