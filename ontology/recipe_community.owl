@@ -589,6 +589,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#profiterol -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;profiterol">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#suzan -->
 
     <owl:NamedIndividual rdf:about="&recipe_community;suzan">
