@@ -100,8 +100,8 @@
     <owl:ObjectProperty rdf:about="&recipe_community;hasAncestorRecipe">
         <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
         <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
         <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
     </owl:ObjectProperty>
     
@@ -111,8 +111,8 @@
 
     <owl:ObjectProperty rdf:about="&recipe_community;hasMutatedChild">
         <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
-        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
         <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
         <owl:inverseOf rdf:resource="&recipe_community;isAmutationOf"/>
         <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
     </owl:ObjectProperty>
@@ -124,8 +124,8 @@
     <owl:ObjectProperty rdf:about="&recipe_community;isAmutationOf">
         <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
         <rdf:type rdf:resource="&owl;FunctionalProperty"/>
-        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
         <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
         <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
     </owl:ObjectProperty>
     
@@ -457,8 +457,8 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;FistikliMuhallebi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
-        <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;betul"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;hakime"/>
         <likedBy rdf:resource="&recipe_community;orhan"/>
         <likedBy rdf:resource="&recipe_community;suzan"/>
@@ -499,8 +499,8 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;TazeFasulye">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
-        <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;betul"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;suzan"/>
     </owl:NamedIndividual>
     
@@ -541,8 +541,8 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;YaylaCorbasi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
-        <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;betul"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
     </owl:NamedIndividual>
     
 
@@ -620,7 +620,17 @@
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#zeytinyağı -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;zeytinyağı"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;zeytinyağı">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#üzüm -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;üzüm">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
 </rdf:RDF>
 
 
