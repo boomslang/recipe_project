@@ -1,0 +1,620 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY voc "http://ns.inria.fr/semsna/2009/06/21/voc.rdf#" >
+    <!ENTITY recipe_community "http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#"
+     xml:base="http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:recipe_community="http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:voc="http://ns.inria.fr/semsna/2009/06/21/voc.rdf#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community">
+        <dc:title xml:lang="en">Recipe Community</dc:title>
+        <owl:imports rdf:resource="http://ns.inria.fr/semsna/2009/06/21/voc.rdf"/>
+    </owl:Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#isDefinedForProperty -->
+
+    <owl:AnnotationProperty rdf:about="&voc;isDefinedForProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#containedBy -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;containedBy">
+        <owl:inverseOf rdf:resource="&recipe_community;contains"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#contains -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;contains">
+        <rdfs:range rdf:resource="&recipe_community;Ingredient"/>
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#created -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;created">
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;User"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#createdBy -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;createdBy">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <owl:inverseOf rdf:resource="&recipe_community;created"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasAncestorRecipe -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;hasAncestorRecipe">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasMutatedChild -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;hasMutatedChild">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <owl:inverseOf rdf:resource="&recipe_community;isAmutationOf"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isAmutationOf -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isAmutationOf">
+        <rdf:type rdf:resource="&owl;AsymmetricProperty"/>
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isAncestorOf -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isAncestorOf">
+        <owl:inverseOf rdf:resource="&recipe_community;hasAncestorRecipe"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#likedBy -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;likedBy">
+        <owl:inverseOf rdf:resource="&recipe_community;likes"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#likes -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;likes">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;User"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#mutated -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;mutated">
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;User"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#mutatedBy -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;mutatedBy">
+        <rdfs:domain rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:range rdf:resource="&recipe_community;User"/>
+        <owl:inverseOf rdf:resource="&recipe_community;mutated"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#recipeCommunityProperty -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;recipeCommunityProperty"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#tagged -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;tagged">
+        <rdfs:range rdf:resource="&recipe_community;Recipe"/>
+        <rdfs:domain rdf:resource="&recipe_community;User"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#taggedBy -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;taggedBy">
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+        <owl:inverseOf rdf:resource="&recipe_community;tagged"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#InDegree -->
+
+    <owl:Class rdf:about="&voc;InDegree"/>
+    
+
+
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#SNAConcept -->
+
+    <owl:Class rdf:about="&voc;SNAConcept">
+        <owl:disjointWith rdf:resource="&recipe_community;Actor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#Actor -->
+
+    <owl:Class rdf:about="&recipe_community;Actor"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#Ingredient -->
+
+    <owl:Class rdf:about="&recipe_community;Ingredient">
+        <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#MostLikedRecipes -->
+
+    <owl:Class rdf:about="&recipe_community;MostLikedRecipes">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;likedBy"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">10</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#MostMutatedRecipes -->
+
+    <owl:Class rdf:about="&recipe_community;MostMutatedRecipes">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;isAncestorOf"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">10</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#MostPopularUsers -->
+
+    <owl:Class rdf:about="&recipe_community;MostPopularUsers">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;User"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;created"/>
+                        <owl:someValuesFrom>
+                            <owl:Class>
+                                <owl:unionOf rdf:parseType="Collection">
+                                    <rdf:Description rdf:about="&recipe_community;MostLikedRecipes"/>
+                                    <rdf:Description rdf:about="&recipe_community;MostMutatedRecipes"/>
+                                </owl:unionOf>
+                            </owl:Class>
+                        </owl:someValuesFrom>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#Recipe -->
+
+    <owl:Class rdf:about="&recipe_community;Recipe">
+        <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#RecipeTaggedbyMoreThanOneUser -->
+
+    <owl:Class rdf:about="&recipe_community;RecipeTaggedbyMoreThanOneUser">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;taggedBy"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">2</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#RecipeWithNoLike -->
+
+    <owl:Class rdf:about="&recipe_community;RecipeWithNoLike">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;Recipe"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;likedBy"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#User -->
+
+    <owl:Class rdf:about="&recipe_community;User">
+        <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UsersCreatedMost -->
+
+    <owl:Class rdf:about="&recipe_community;UsersCreatedMost">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;User"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;created"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">10</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UsersMutatedMost -->
+
+    <owl:Class rdf:about="&recipe_community;UsersMutatedMost">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;User"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;mutated"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">10</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UsersTaggedMost -->
+
+    <owl:Class rdf:about="&recipe_community;UsersTaggedMost">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;User"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;tagged"/>
+                        <owl:minCardinality rdf:datatype="&xsd;nonNegativeInteger">10</owl:minCardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UsersWithNoInteraction -->
+
+    <owl:Class rdf:about="&recipe_community;UsersWithNoInteraction">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&recipe_community;User"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;created"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;likes"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;mutated"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                    </owl:Restriction>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="&recipe_community;tagged"/>
+                        <owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">0</owl:cardinality>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#FistikliMuhallebi -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;FistikliMuhallebi">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;hakime"/>
+        <likedBy rdf:resource="&recipe_community;orhan"/>
+        <likedBy rdf:resource="&recipe_community;suzan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#ImamBayildi -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;ImamBayildi">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;suzan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#IndegreeCentrality_recipe_like -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;IndegreeCentrality_recipe_like">
+        <rdf:type rdf:resource="&voc;InDegree"/>
+        <voc:isDefinedForProperty rdf:resource="&recipe_community;likes"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#Tandir -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;Tandir">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;hakime"/>
+        <likedBy rdf:resource="&recipe_community;orhan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#TazeFasulye -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;TazeFasulye">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;suzan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UzumPekmezi -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;UzumPekmezi">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <likedBy rdf:resource="&recipe_community;hakime"/>
+        <likedBy rdf:resource="&recipe_community;orhan"/>
+        <createdBy rdf:resource="&recipe_community;suzan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#UzumReceli -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;UzumReceli">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <likedBy rdf:resource="&recipe_community;betul"/>
+        <createdBy rdf:resource="&recipe_community;hakime"/>
+        <likedBy rdf:resource="&recipe_community;orhan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#YaprakSarmasi -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;YaprakSarmasi">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;orhan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#YaylaCorbasi -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;YaylaCorbasi">
+        <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <createdBy rdf:resource="&recipe_community;betul"/>
+        <likedBy rdf:resource="&recipe_community;betul"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#betul -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;betul">
+        <rdf:type rdf:resource="&recipe_community;User"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#domates -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;domates"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hakime -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;hakime">
+        <rdf:type rdf:resource="&recipe_community;User"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#karabiber -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;karabiber"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#orhan -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;orhan">
+        <rdf:type rdf:resource="&recipe_community;User"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#pirinç -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;pirinç"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#suzan -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;suzan">
+        <rdf:type rdf:resource="&recipe_community;User"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#süt -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;süt"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#tuz -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;tuz"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#zeytinyağı -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;zeytinyağı"/>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
