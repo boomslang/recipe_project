@@ -513,6 +513,7 @@
         <likedBy rdf:resource="&recipe_community;hakime"/>
         <likedBy rdf:resource="&recipe_community;orhan"/>
         <createdBy rdf:resource="&recipe_community;suzan"/>
+        <contains rdf:resource="&recipe_community;üzüm"/>
     </owl:NamedIndividual>
     
 
@@ -557,7 +558,9 @@
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#domates -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;domates"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;domates">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
     
 
 
@@ -571,7 +574,9 @@
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#karabiber -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;karabiber"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;karabiber">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
     
 
 
@@ -585,7 +590,9 @@
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#pirinç -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;pirinç"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;pirinç">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
     
 
 
@@ -608,13 +615,17 @@
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#süt -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;süt"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;süt">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
     
 
 
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#tuz -->
 
-    <owl:NamedIndividual rdf:about="&recipe_community;tuz"/>
+    <owl:NamedIndividual rdf:about="&recipe_community;tuz">
+        <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+    </owl:NamedIndividual>
     
 
 
@@ -630,6 +641,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;üzüm">
         <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+        <containedBy rdf:resource="&recipe_community;UzumReceli"/>
     </owl:NamedIndividual>
 </rdf:RDF>
 
