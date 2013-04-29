@@ -7,7 +7,7 @@
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
     <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-    <!ENTITY voc "http://ns.inria.fr/semsna/2009/06/21/voc.rdf#" >
+    <!ENTITY voc "http://ns.inria.fr/semsna/2009/06/21/voc#" >
     <!ENTITY recipe_community "http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#" >
 ]>
 
@@ -20,7 +20,7 @@
      xmlns:owl="http://www.w3.org/2002/07/owl#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-     xmlns:voc="http://ns.inria.fr/semsna/2009/06/21/voc.rdf#">
+     xmlns:voc="http://ns.inria.fr/semsna/2009/06/21/voc#">
     <owl:Ontology rdf:about="http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community">
         <dc:title xml:lang="en">Recipe Community</dc:title>
         <owl:imports rdf:resource="http://ns.inria.fr/semsna/2009/06/21/voc.rdf"/>
@@ -39,7 +39,7 @@
     
 
 
-    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#isDefinedForProperty -->
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc#isDefinedForProperty -->
 
     <owl:AnnotationProperty rdf:about="&voc;isDefinedForProperty"/>
     
@@ -217,13 +217,13 @@
     
 
 
-    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#InDegree -->
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc#InDegree -->
 
     <owl:Class rdf:about="&voc;InDegree"/>
     
 
 
-    <!-- http://ns.inria.fr/semsna/2009/06/21/voc.rdf#SNAConcept -->
+    <!-- http://ns.inria.fr/semsna/2009/06/21/voc#SNAConcept -->
 
     <owl:Class rdf:about="&voc;SNAConcept">
         <owl:disjointWith rdf:resource="&recipe_community;Actor"/>
