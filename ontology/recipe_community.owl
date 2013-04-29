@@ -6,8 +6,8 @@
     <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
     <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
     <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY voc "http://ns.inria.fr/semsna/2009/06/21/voc#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
     <!ENTITY recipe_community "http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#" >
 ]>
 
@@ -209,6 +209,57 @@
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasCalorificContentValue -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasCalorificContentValue"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasIngredientName -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasIngredientName">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasRecipeCreationDate -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasRecipeCreationDate"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasRecipeName -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasRecipeName"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasUserName -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasUserName">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+    </owl:DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasUserRegistrationDate -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasUserRegistrationDate"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
     // Classes
     //
     ///////////////////////////////////////////////////////////////////////////////////////
@@ -241,6 +292,12 @@
 
     <owl:Class rdf:about="&recipe_community;Ingredient">
         <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasIngredientName"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -310,6 +367,24 @@
 
     <owl:Class rdf:about="&recipe_community;Recipe">
         <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasCalorificContentValue"/>
+                <owl:someValuesFrom rdf:resource="&xsd;int"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasRecipeName"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasRecipeCreationDate"/>
+                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -354,6 +429,18 @@
 
     <owl:Class rdf:about="&recipe_community;User">
         <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasUserRegistrationDate"/>
+                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="&recipe_community;hasUserName"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+            </owl:Restriction>
+        </rdfs:subClassOf>
     </owl:Class>
     
 
@@ -457,6 +544,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;FistikliMuhallebi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <hasCalorificContentValue rdf:datatype="&xsd;integer">190</hasCalorificContentValue>
         <likedBy rdf:resource="&recipe_community;betul"/>
         <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;hakime"/>
@@ -470,6 +558,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;ImamBayildi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <hasRecipeName rdf:datatype="&xsd;string">Imam Bayıldı</hasRecipeName>
         <createdBy rdf:resource="&recipe_community;betul"/>
         <likedBy rdf:resource="&recipe_community;suzan"/>
     </owl:NamedIndividual>
@@ -510,6 +599,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;UzumPekmezi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <hasRecipeName rdf:datatype="&xsd;string">Uzum Pekmezi</hasRecipeName>
         <likedBy rdf:resource="&recipe_community;hakime"/>
         <likedBy rdf:resource="&recipe_community;orhan"/>
         <createdBy rdf:resource="&recipe_community;suzan"/>
@@ -533,6 +623,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;YaprakSarmasi">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <hasCalorificContentValue rdf:datatype="&xsd;integer">250</hasCalorificContentValue>
         <createdBy rdf:resource="&recipe_community;orhan"/>
     </owl:NamedIndividual>
     
@@ -552,6 +643,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;betul">
         <rdf:type rdf:resource="&recipe_community;User"/>
+        <hasUserName rdf:datatype="&xsd;string">Betul B.</hasUserName>
     </owl:NamedIndividual>
     
 
@@ -568,6 +660,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;hakime">
         <rdf:type rdf:resource="&recipe_community;User"/>
+        <hasUserName rdf:datatype="&xsd;string">Hakime O.</hasUserName>
     </owl:NamedIndividual>
     
 
@@ -580,10 +673,20 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#murat -->
+
+    <owl:NamedIndividual rdf:about="&recipe_community;murat">
+        <rdf:type rdf:resource="&recipe_community;User"/>
+        <hasUserName rdf:datatype="&xsd;string">Murat S.</hasUserName>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#orhan -->
 
     <owl:NamedIndividual rdf:about="&recipe_community;orhan">
         <rdf:type rdf:resource="&recipe_community;User"/>
+        <hasUserName rdf:datatype="&xsd;string">Orhan B.</hasUserName>
     </owl:NamedIndividual>
     
 
@@ -600,6 +703,8 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;profiterol">
         <rdf:type rdf:resource="&recipe_community;Recipe"/>
+        <hasCalorificContentValue rdf:datatype="&xsd;integer">230</hasCalorificContentValue>
+        <hasRecipeName rdf:datatype="&xsd;string">Profiterol</hasRecipeName>
         <createdBy rdf:resource="&recipe_community;betul"/>
     </owl:NamedIndividual>
     
@@ -609,6 +714,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;suzan">
         <rdf:type rdf:resource="&recipe_community;User"/>
+        <hasUserName rdf:datatype="&xsd;string">Suzan U.</hasUserName>
     </owl:NamedIndividual>
     
 
@@ -641,6 +747,7 @@
 
     <owl:NamedIndividual rdf:about="&recipe_community;üzüm">
         <rdf:type rdf:resource="&recipe_community;Ingredient"/>
+        <hasIngredientName rdf:datatype="&xsd;string">üzüm</hasIngredientName>
         <containedBy rdf:resource="&recipe_community;UzumReceli"/>
     </owl:NamedIndividual>
 </rdf:RDF>
