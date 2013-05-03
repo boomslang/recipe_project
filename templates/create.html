@@ -1,4 +1,12 @@
 {% extends "base.html" %}
 {% block body %}
     <span>Create a new recipe!</span>
+    {% if form_i %}
+        <form method="post" action="" class="form-horizontal well">{% csrf_token %}
+
+            {{ form_i }}
+
+            <input type="submit" name="submit" value="Add">
+        </form>
+    {% endif %}
 {% endblock %}

@@ -38,4 +38,12 @@ class UserForm(forms.Form):
 
         return field_data
 
+class dummy_class(models.Model):
+    name = models.CharField(max_length=100)
+    def __unicode__(self):
+        return self.name
+class dummy_form(forms.Form):
+    name = forms.CharField(max_length=100)
+
 admin.site.register(UserProfile)
+admin.site.register(dummy_class)

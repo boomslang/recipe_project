@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from main.models import UserForm, UserProfile
+from main.models import UserForm, UserProfile, dummy_form, dummy_class
 from recipe_project.settings import STATIC_URL
 
 def main_page(request):
@@ -44,7 +44,20 @@ def logout_view(request):
 def profile_view(request):
     d = {"user" : request.user}
     return render_to_response('profile.html', d)
+
 @login_required
 def create_view(request):
-    d = {"user" : request.user}
-    return render_to_response('create.html', d)
+    if request.method == 'GET':
+        dummy_form_i = dummy_form()
+        d = {"user" : request.user, "form_i" : dummy_form_i}
+        d.update(csrf(request))
+        return render_to_response('create.html', d)
+    else:
+        formset = dummy_form(request.POST, request.FILES)
+        if formset.is_valid():
+            dummy = dummy_class.objects.create()
+            dummy.name = formset.data["name"]
+            dummy.save()
+
+            d = {"user" : request.user}
+            return render_to_response('create.html', d)
