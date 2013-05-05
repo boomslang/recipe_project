@@ -1,4 +1,17 @@
 {% extends "base.html" %}
 {% block body %}
     <span>Recipe List</span>
+
+           {% if recipes %}
+
+
+                   {% for r in recipes %}
+                        {{ r.recipeName }}
+                         <br>
+                   {% endfor %}
+
+            {% endif %}
+
+
+
 {% endblock %}
