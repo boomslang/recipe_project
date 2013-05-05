@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     (r'^logout/$', 'main.views.logout_view'),
     (r'^profile/$', 'main.views.profile_view'),
     (r'^create/$', 'main.views.create_view'),
+
     (r'^register/', 'main.views.register'),
 #     (r'^profile/(?P<user_name>[^/]+)/$', 'main.views.profile_view'),
 
@@ -28,7 +29,7 @@ urlpatterns = patterns('',
 
 
 
-    (r'^$', 'main.views.main_page'), # Should be the last element!
+    (r'^$', 'main.views.mainPage_view'), # Should be the last element!
 )
 
 urlpatterns += staticfiles_urlpatterns()
