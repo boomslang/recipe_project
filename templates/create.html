@@ -1,12 +1,75 @@
 {% extends "base.html" %}
 {% block body %}
     <span>Create a new recipe!</span>
-    {% if form_i %}
+    {% if recipeForm1 and recipeContentForm1 %}
         <form method="post" action="" class="form-horizontal well">{% csrf_token %}
 
-            {{ form_i }}
+          <tr>
+              <td>
+                  <label>Recipe Name:</label>
+                  {{ recipeForm1.recipeName }}
 
-            <input type="submit" name="submit" value="Add">
+
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient1:</label>
+                 {{ recipeContentForm1.quantity }}
+
+                 {{ recipeContentForm1.measurementUnitID }}
+
+                 {{ recipeContentForm1.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient2:</label>
+                 {{ recipeContentForm2.quantity }}
+
+                 {{ recipeContentForm2.measurementUnitID }}
+
+                 {{ recipeContentForm2.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient3:</label>
+                 {{ recipeContentForm3.quantity }}
+
+                 {{ recipeContentForm3.measurementUnitID }}
+
+                 {{ recipeContentForm3.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+
+                  <label>Recipe Steps:</label>
+                 {{ recipeForm1.recipeDesc }}
+              </td>
+          </tr>
+
+
+            <p>
+          <tr>
+              <td>
+
+                  <br>
+            <input type="submit" name="submit" value="Create the Recipe!">
+              </td>
+        </tr>
+        </p>
         </form>
+
     {% endif %}
+{#        {% if recipeContent1 %}#}
+{#        <form method="post" action="" class="form-horizontal well">{% csrf_token %}#}
+{##}
+{#            {{ recipeContent1 }}#}
+{##}
+{#            <input type="submit" name="submit" value="Add">#}
+{#        </form>#}
+{##}
+{#    {% endif %}#}
 {% endblock %}
