@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from main.models import UserForm, UserProfile, dummy_form, dummy_class
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2,recipeContents_form, ingredient2,measurementUnit2
 from recipe_project.settings import STATIC_URL
 
 def main_page(request):
@@ -48,16 +48,92 @@ def profile_view(request):
 @login_required
 def create_view(request):
     if request.method == 'GET':
-        dummy_form_i = dummy_form()
-        d = {"user" : request.user, "form_i" : dummy_form_i}
+        recipe_form1 = recipeForm()
+        #ingredient_form1 = ingredient_form()
+        #measurement_form1 = measurement_form()
+        recipeContents_form1 = recipeContents_form()
+        recipeContents_form2 = recipeContents_form()
+        recipeContents_form3 = recipeContents_form()
+
+        d = {"user" : request.user, "recipeForm1": recipe_form1, "recipeContentForm1": recipeContents_form1, "recipeContentForm2": recipeContents_form2, "recipeContentForm3": recipeContents_form3}
         d.update(csrf(request))
         return render_to_response('create.html', d)
     else:
-        formset = dummy_form(request.POST, request.FILES)
-        if formset.is_valid():
-            dummy = dummy_class.objects.create()
-            dummy.name = formset.data["name"]
-            dummy.save()
+        formset1 = recipeForm(request.POST, request.FILES)
+        formset2 = recipeContents_form(request.POST, request.FILES)
+        formset3 = recipeContents_form(request.POST, request.FILES)
+        formset4 = recipeContents_form(request.POST, request.FILES)
 
-            d = {"user" : request.user}
-            return render_to_response('create.html', d)
+        if formset1.is_valid():
+            recipe = recipeClass1.objects.create()
+            recipe.recipeName = formset1.data["recipeName"]
+            recipe.recipeDesc = formset1.data["recipeDesc"]
+          #  recipe.creationDateTime = formset.data["creationDateTime"]
+           # t = {"user": request.user}
+            #c = User.objects.get()
+           # custom = UserProfile(user = t)
+           # custom.user_id = t.id
+            recipe.creatorID = request.user
+            recipe.save()
+
+        if formset2.is_valid():
+            contents = recipeContent2.objects.create()
+            contents.quantity = formset2.data["quantity"]
+            i = formset2.data["ingredientID"]
+            ingred = ingredient2.objects.get(pk=i)
+            contents.ingredientID = ingred
+            m = formset2.data["measurementUnitID"]
+            meas = measurementUnit2.objects.get(pk=m)
+            contents.measurementUnitID = meas
+            r = recipeClass1.objects.get(recipeName=recipe.recipeName)
+            contents.recipeID = r
+            contents.save()
+
+        if formset3.is_valid():
+            contents2 = recipeContent2.objects.create()
+            contents2.quantity = formset3.data["quantity"]
+            i = formset3.data["ingredientID"]
+
+            ingred = ingredient2.objects.get(pk=i)
+
+            contents2.ingredientID = ingred
+            m = formset3.data["measurementUnitID"]
+            meas = measurementUnit2.objects.get(pk=m)
+            contents2.measurementUnitID = meas
+            r = recipeClass1.objects.get(recipeName=recipe.recipeName)
+            contents2.recipeID = r
+            contents2.save()
+
+        if formset4.is_valid():
+            contents3 = recipeContent2.objects.create()
+            contents3.quantity = formset4.data["quantity"]
+            i = formset4.data["ingredientID"]
+
+            ingred = ingredient2.objects.get(pk=i)
+            contents3.ingredientID = ingred
+            m = formset4.data["measurementUnitID"]
+            meas = measurementUnit2.objects.get(pk=m)
+            contents3.measurementUnitID = meas
+            r = recipeClass1.objects.get(recipeName=recipe.recipeName)
+            contents3.recipeID = r
+            contents3.save()
+
+
+
+        d = {"user" : request.user}
+        return render_to_response('create.html', d)
+
+
+def mainPage_view(request):
+
+
+  recipes = recipeClass1.objects.all()
+
+  d= {"recipes": recipes}
+  d.update(csrf(request))
+  return render_to_response('main_page.html', d)
+
+
+
+
+
