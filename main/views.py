@@ -8,9 +8,12 @@ from django.shortcuts import render_to_response
 from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2,recipeContents_form, ingredient2,measurementUnit2
 from recipe_project.settings import STATIC_URL
 
-def main_page(request):
-    d = {"user" : request.user}
-    return render_to_response('main_page.html', d)
+def mainPage_view(request):
+
+  recipes = recipeClass1.objects.all()
+
+  d = {"recipes": recipes, "user" : request.user}
+  return render_to_response('main_page.html', d)
 
 
 def register(request):
@@ -124,14 +127,7 @@ def create_view(request):
         return render_to_response('create.html', d)
 
 
-def mainPage_view(request):
 
-
-  recipes = recipeClass1.objects.all()
-
-  d= {"recipes": recipes}
-  d.update(csrf(request))
-  return render_to_response('main_page.html', d)
 
 
 
