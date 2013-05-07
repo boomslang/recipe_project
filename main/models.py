@@ -43,26 +43,7 @@ class UserForm(forms.Form):
 admin.site.register(UserProfile)
 
 import datetime
-class recipe_class(models.Model):
-    recipeID =  models.AutoField(primary_key = True)
-    recipeName = models.CharField(max_length=100)
-    recipeDesc = models.CharField(max_length=1000)
 
-    #creatorID = models.ForeignKey('UserProfile')
-    creatorID = models.IntegerField(default=1)
-
-    creationDateTime = models.DateTimeField(default=datetime.date.today)
-
-    def __unicode__(self):
-        return self.recipeName
-
-class recipe_form(forms.Form):
-    recipeName = forms.CharField(max_length=100)
-    recipeDesc = forms.CharField(max_length=1000)
-
-
-
-admin.site.register(recipe_class)
 
 class recipeClass1(models.Model):
    # recipeID =  models.AutoField(primary_key = True)
