@@ -1,14 +1,40 @@
 {% extends "base.html" %}
 {% block body %}
-    <span>Recipe List</span>
+    <script type="text/javascript" language="javascript">// <![CDATA[
+function showDesc() {
+    var ele = document.getElementById("click2");
+    if(ele.style.visibility == "visible") {
+            ele.style.visibility = "hidden";
+      }
+    else {
+        ele.style.visibility = "visible";
 
+    }
+}
+// ]]></script>
+    <span><h2>Recipe List</h2></span>
+
+           <br>
            {% if recipes %}
 
+                <form method="post" action="">
 
                    {% for r in recipes %}
-                        {{ r.recipeName }}
-                         <br>
+
+                         <!-- <p><input type="text" value="{{  r.recipeName }}" onclick="return showDesc();" /></p>
+                             <div>{{ r.recipeDesc }}</div>
+                     <label><div id="click" style="display:none;">{{ r.recipeDesc }}</div></label>-->
+                     <h4 onclick="return showDesc();" >{{ r.recipeName }}</h4>
+                       <div  style="visibility: visible" onclick="if (this.style.visibility=='visible') this.style.visibility='hidden';" >{{ r.recipeDesc }}</div>
+
+
+
+                       <br>
+
                    {% endfor %}
+                </form>
+
+
 
             {% endif %}
 
