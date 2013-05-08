@@ -49,10 +49,10 @@ def logout_view(request):
 @login_required
 def profile_view(request):
     if request.method == 'GET':
-
+        userprofile1=UserProfile()
         user_createdRecipes = recipeClass1.objects.filter(creatorID=request.user.id) #active user_id ?
 
-        d = {"user": request.user, "createdRecipes1": user_createdRecipes}
+        d = {"user": request.user, "createdRecipes1": user_createdRecipes, "UserProfile1": userprofile1}
         d.update(csrf(request))
         return render_to_response('profile.html', d)
 
