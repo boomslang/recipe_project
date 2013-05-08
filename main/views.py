@@ -5,28 +5,29 @@ from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2,recipeContents_form, ingredient2,measurementUnit2
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2
 from recipe_project.settings import STATIC_URL
 
+
 def mainPage_view(request):
+    recipes = recipeClass1.objects.all()
 
-  recipes = recipeClass1.objects.all()
-
-  d = {"recipes": recipes, "user" : request.user}
-  return render_to_response('main_page.html', d)
+    d = {"recipes": recipes, "user": request.user}
+    return render_to_response('main_page.html', d)
 
 
 def register(request):
     if request.method == 'POST':
         formset = UserForm(request.POST, request.FILES)
         if formset.is_valid():
-            newUser =  User.objects.create_user(formset.data['username'], formset.data['email'], formset.data['password'])
-            custom = UserProfile(user = newUser)
+            newUser = User.objects.create_user(formset.data['username'], formset.data['email'],
+                                               formset.data['password'])
+            custom = UserProfile(user=newUser)
             custom.user_id = newUser.id
             custom.save()
-            newUser = authenticate(username=request.POST['username'],password=request.POST['password'])
+            newUser = authenticate(username=request.POST['username'], password=request.POST['password'])
             login(request, newUser)
-            d = {"user" : request.user}
+            d = {"user": request.user}
             return render_to_response("registration/register_success.html", d)
         else:
             d = {"formset": formset}
@@ -39,14 +40,20 @@ def register(request):
         d.update(csrf(request))
         return render_to_response("registration/register.html", d)
 
+
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect("/")
 
+
 @login_required
 def profile_view(request):
-    d = {"user" : request.user}
-    return render_to_response('profile.html', d)
+    if request.method == 'GET':
+        user_profile1 = UserProfile()
+        user_createdRecipes=recipeClass1.objects.all().filter(creatorID=1) #active user_id ?
+        d = {"user": request.user, "UserProfile1": user_profile1, "createdRecipes1": user_createdRecipes}
+        return render_to_response('profile.html', d)
+
 
 @login_required
 def create_view(request):
@@ -58,7 +65,8 @@ def create_view(request):
         recipeContents_form2 = recipeContents_form()
         recipeContents_form3 = recipeContents_form()
 
-        d = {"user" : request.user, "recipeForm1": recipe_form1, "recipeContentForm1": recipeContents_form1, "recipeContentForm2": recipeContents_form2, "recipeContentForm3": recipeContents_form3}
+        d = {"user": request.user, "recipeForm1": recipe_form1, "recipeContentForm1": recipeContents_form1,
+             "recipeContentForm2": recipeContents_form2, "recipeContentForm3": recipeContents_form3}
         d.update(csrf(request))
         return render_to_response('create.html', d)
     else:
@@ -71,11 +79,11 @@ def create_view(request):
             recipe = recipeClass1.objects.create()
             recipe.recipeName = formset1.data["recipeName"]
             recipe.recipeDesc = formset1.data["recipeDesc"]
-          #  recipe.creationDateTime = formset.data["creationDateTime"]
-           # t = {"user": request.user}
+            #  recipe.creationDateTime = formset.data["creationDateTime"]
+            # t = {"user": request.user}
             #c = User.objects.get()
-           # custom = UserProfile(user = t)
-           # custom.user_id = t.id
+            # custom = UserProfile(user = t)
+            # custom.user_id = t.id
             recipe.creatorID = request.user
             recipe.save()
 
@@ -121,9 +129,7 @@ def create_view(request):
             contents3.recipeID = r
             contents3.save()
 
-
-
-        d = {"user" : request.user}
+        d = {"user": request.user}
         return render_to_response('create.html', d)
 
 
