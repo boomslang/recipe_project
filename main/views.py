@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.contrib import messages
 from django.forms.models import modelformset_factory
 from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2
 from recipe_project.settings import STATIC_URL
@@ -168,7 +169,8 @@ def create_view(request):
             contents5.recipeID = r
             contents5.save()
 
-        d = {"user": request.user}
-        return render_to_response('create.html', d)
+        return mainPage_view(request)
+       # d = {"user": request.user}
+       # return render_to_response('profile.html', d)
 
 
