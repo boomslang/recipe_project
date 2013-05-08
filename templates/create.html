@@ -4,6 +4,7 @@
     {% if recipeForm1 and recipeContentForm1 %}
         <form method="post" action="" class="form-horizontal well">{% csrf_token %}
 
+
           <tr>
               <td>
                   <label>Recipe Name:</label>
@@ -40,6 +41,26 @@
                  {{ recipeContentForm3.measurementUnitID }}
 
                  {{ recipeContentForm3.ingredientID }}
+              </td>
+          </tr>
+            <tr>
+              <td>
+                  <label>Ingredient4:</label>
+                 {{ recipeContentForm4.quantity }}
+
+                 {{ recipeContentForm4.measurementUnitID }}
+
+                 {{ recipeContentForm4.ingredientID }}
+              </td>
+          </tr>
+            <tr>
+              <td>
+                  <label>Ingredient5:</label>
+                 {{ recipeContentForm5.quantity }}
+
+                 {{ recipeContentForm5.measurementUnitID }}
+
+                 {{ recipeContentForm5.ingredientID }}
               </td>
           </tr>
           <tr>
