@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block body %}
     <script type="text/javascript" language="javascript">// <![CDATA[
-function showDesc() {
-    var ele = document.getElementById("click2");
+function showDesc(id) {
+    var ele = document.getElementById(id);
     if(ele.style.visibility == "visible") {
             ele.style.visibility = "hidden";
       }
@@ -17,19 +17,16 @@ function showDesc() {
            <br>
            {% if recipes %}
 
+
                 <form method="post" action="">
 
                    {% for r in recipes %}
 
-                         <!-- <p><input type="text" value="{{  r.recipeName }}" onclick="return showDesc();" /></p>
-                             <div>{{ r.recipeDesc }}</div>
-                     <label><div id="click" style="display:none;">{{ r.recipeDesc }}</div></label>-->
-                     <h4 onclick="return showDesc();" >{{ r.recipeName }}</h4>
-                       <div  style="visibility: visible" onclick="if (this.style.visibility=='visible') this.style.visibility='hidden';" >{{ r.recipeDesc }}</div>
+                    <p> <h4  style="text-decoration: underline; color: darkblue; font-family: cursive"  onclick="showDesc({{ r.id }})">{{ r.recipeName }}</h4>
+                        by  <comment style="text-decoration: underline; font-style: italic" >{{ user.username }}</comment> - <comment style="font-style: italic">  {{ r.creationDateTime }}</comment>
+                       <div id="{{ r.id }}" style="visibility: hidden"  ><comment style="font-family: cursive; font-weight: bold; color: darkblue">   Description:</comment> {{ r.recipeDesc }}</div></p>
 
 
-
-                       <br>
 
                    {% endfor %}
                 </form>
