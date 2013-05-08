@@ -95,8 +95,8 @@ admin.site.register(measurementUnit2)
 class recipeContent2(models.Model):
     #recipeContentsID =  models.AutoField(primary_key = True)
     recipeID = models.ForeignKey(recipeClass1, blank=False, null=False)
-    ingredientID = models.ForeignKey(ingredient2, blank=False, null=False)
-    measurementUnitID = models.ForeignKey(measurementUnit2, blank=False, null=False)
+    ingredientID = models.ForeignKey(ingredient2, blank=True, null=True)
+    measurementUnitID = models.ForeignKey(measurementUnit2, blank=True, null=True)
     quantity = models.FloatField(default=0)
 
     #def __unicode__(self):
