@@ -1,24 +1,26 @@
 {% extends "base.html" %}
 {% block body %}
     <h2><span>User profile</span></h2>
-    {% if UserProfile1 and createdRecipes1 %}
-
-   <table>
+    {% if user %}
+          <table>
         <tr>
               <td>
-                  <label>User Name:</label>
-                  {{ UserProfile1.user.username}}
+                  <label>User Name: {{ user.username }}</label>
+
               </td>
 
           </tr>
-        <tr>
-               <td>
-                  <label>User Karma:</label>
-                 {{ UserProfile1.karma }}
-              </td>
-
-         </tr>
+{#        <tr>#}
+{#               <td>#}
+{#                  <label>User Karma:</label>#}
+{#                 {{ UserProfile1.karma }}#}
+{#              </td>#}
+{##}
+{#         </tr>#}
    </table>
+        {% if createdRecipes1 %}
+
+
           <h4><label>Own Recipes:</label></h4>
         <tr>
               <td>
@@ -31,6 +33,11 @@
 
          </tr>
 
+
+        {% else %}
+            <h4><label>You have not created any recipe yet. Go check the <a href="/">recipes</a>.</label></h4>
+
+        {% endif %}
     {% endif %}
 
 {% endblock %}
