@@ -1,4 +1,36 @@
 {% extends "base.html" %}
 {% block body %}
     <span>User profile</span>
+    {% if UserProfile1 and createdRecipes1 %}
+
+   <table>
+        <tr>
+              <td>
+                  <label>User Name:</label>
+                  {{ UserProfile1.user.username}}
+              </td>
+
+          </tr>
+        <tr>
+               <td>
+                  <label>User Karma:</label>
+                 {{ UserProfile1.karma }}
+              </td>
+
+         </tr>
+   </table>
+          <h4><label>Own Recipes:</label></h4>
+        <tr>
+              <td>
+
+                     {% for r in createdRecipes1 %}
+                        {{ r.recipeName }}
+                         <br>
+                   {% endfor %}
+              </td>
+
+         </tr>
+
+    {% endif %}
+
 {% endblock %}
