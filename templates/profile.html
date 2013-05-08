@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% block body %}
     <h2><span>User profile</span></h2>
-    {% if user %}
-          <table>
+    {% if user and UserProfile1 %}
+    <table>
         <tr>
               <td>
                   <label>User Name: {{ user.username }}</label>
 
+
               </td>
 
-          </tr>
-{#        <tr>#}
-{#               <td>#}
-{#                  <label>User Karma:</label>#}
-{#                 {{ UserProfile1.karma }}#}
-{#              </td>#}
-{##}
-{#         </tr>#}
+         </tr>
+         <tr>
+               <td>
+                  <label>User Karma:</label>
+                 {{ UserProfile1.karma }}
+              </td>
+
+        </tr>
    </table>
         {% if createdRecipes1 %}
 
