@@ -56,6 +56,14 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#affiliationObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;affiliationObjectProperty">
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;recipeCommunityProperty"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#containedBy -->
 
     <owl:ObjectProperty rdf:about="&recipe_community;containedBy">
@@ -140,6 +148,42 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isDefinedForActor -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isDefinedForActor">
+        <rdfs:range rdf:resource="&recipe_community;Actor"/>
+        <rdfs:domain rdf:resource="&recipe_community;AffiliationConcept"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;affiliationObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isDefinedForActorFrom -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isDefinedForActorFrom">
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;isDefinedForActor"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isDefinedForProperty -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isDefinedForProperty">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <rdfs:domain rdf:resource="&recipe_community;AffiliationConcept"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;affiliationObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#isDefinedForToActorTo -->
+
+    <owl:ObjectProperty rdf:about="&recipe_community;isDefinedForToActorTo">
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;isDefinedForActor"/>
+    </owl:ObjectProperty>
+    
+
+
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#likedBy -->
 
     <owl:ObjectProperty rdf:about="&recipe_community;likedBy">
@@ -217,6 +261,12 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#affiliationDataProperty -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;affiliationDataProperty"/>
+    
+
+
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasCalorificContentValue -->
 
     <owl:DatatypeProperty rdf:about="&recipe_community;hasCalorificContentValue"/>
@@ -260,6 +310,16 @@
     
 
 
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#hasValue -->
+
+    <owl:DatatypeProperty rdf:about="&recipe_community;hasValue">
+        <rdfs:domain rdf:resource="&recipe_community;AffiliationConcept"/>
+        <rdfs:subPropertyOf rdf:resource="&recipe_community;affiliationDataProperty"/>
+        <rdfs:range rdf:resource="&xsd;decimal"/>
+    </owl:DatatypeProperty>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -288,6 +348,28 @@
     <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#Actor -->
 
     <owl:Class rdf:about="&recipe_community;Actor"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#AffiliationConcept -->
+
+    <owl:Class rdf:about="&recipe_community;AffiliationConcept"/>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#DirectedAffilitaionConcept -->
+
+    <owl:Class rdf:about="&recipe_community;DirectedAffilitaionConcept">
+        <rdfs:subClassOf rdf:resource="&recipe_community;AffiliationConcept"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/betul/ontologies/2013/3/recipe_community#IndirectedAffiliationConcept -->
+
+    <owl:Class rdf:about="&recipe_community;IndirectedAffiliationConcept">
+        <rdfs:subClassOf rdf:resource="&recipe_community;AffiliationConcept"/>
+    </owl:Class>
     
 
 
@@ -378,14 +460,14 @@
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&recipe_community;hasRecipeCreationDate"/>
-                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
+                <owl:onProperty rdf:resource="&recipe_community;hasRecipeName"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&recipe_community;hasRecipeName"/>
-                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="&recipe_community;hasRecipeCreationDate"/>
+                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
@@ -434,14 +516,14 @@
         <rdfs:subClassOf rdf:resource="&recipe_community;Actor"/>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&recipe_community;hasUserRegistrationDate"/>
-                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
+                <owl:onProperty rdf:resource="&recipe_community;hasUserName"/>
+                <owl:someValuesFrom rdf:resource="&xsd;string"/>
             </owl:Restriction>
         </rdfs:subClassOf>
         <rdfs:subClassOf>
             <owl:Restriction>
-                <owl:onProperty rdf:resource="&recipe_community;hasUserName"/>
-                <owl:someValuesFrom rdf:resource="&xsd;string"/>
+                <owl:onProperty rdf:resource="&recipe_community;hasUserRegistrationDate"/>
+                <owl:someValuesFrom rdf:resource="&xsd;dateTime"/>
             </owl:Restriction>
         </rdfs:subClassOf>
     </owl:Class>
