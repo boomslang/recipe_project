@@ -2,27 +2,28 @@
 {% block body %}
     <div class="row"><div class="span12">
         <h1>{{ user_to_view.username }}</h1>
-        <h3>User Information :</h3>
-        <div class="row">
-            <div class="span2">
-                <span>E-Mail :</span>
-            </div>
-            <div class="span2">
-                <span>{{ user_to_view.email }}</span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="span2">
-                <span>Karma :</span>
-            </div>
-            <div class="span2">
-                <span>{{ karma }}</span>
-            </div>
-        </div>
+        <h4>User Information :</h4>
+
+        <table>
+        <tr>
+              <td>
+                  <label>E-Mail : {{user_to_view.email  }}</label>
+
+              </td>
+         </tr>
+         <tr>
+               <td>
+                  <label>User Karma:</label>
+                 {{  karma }}
+              </td>
+
+        </tr>
+   </table>
+
 
 
         <div class="row"><div class="span12">
-            <h3>Recipes</h3>
+            <h4>Recipes</h4>
             {% for recipe in recipes %}
             <div class="row">
                 <div class="span4"><a href="/r/{{ recipe.id }}"> {{ recipe.recipeName}}</a></div>
@@ -31,10 +32,10 @@
         </div></div>
 
      <div class="row"><div class="span12">
-            <h3>Liked Recipes</h3>
-            {% for l in likedRecipes1 %}
+            <h4>Liked Recipes</h4>
+            {% for liked in likedRecipes1 %}
             <div class="row">
-                <div class="span4"><a href="/r/{{ l.id }}"> {{ l.recipeName}}</a></div>
+                <div class="span4"><a href="/r/{{ liked.id }}"> {{ liked.recipeName}}</a></div>
             </div>
             {% endfor %}
         </div></div>
