@@ -19,26 +19,33 @@
 
         </tr>
    </table>
+     {% if recipes and likedRecipes1 %}
+           <h4><label>Own Recipes:</label></h4>
+        <tr>
+              <td>
+
+                     {% for recipe in recipes %}
+                        <a href="/r/{{ recipe.id }}"> {{ recipe.recipeName }}</a>
+                         <br>
+                   {% endfor %}
+              </td>
+
+         </tr>
+            <h4><label>Liked Recipes:</label></h4>
+        <tr>
+              <td>
+
+                     {% for liked in likedRecipes1 %}
+                        <a href="/r/{{ liked.id }}"> {{ liked.recipeName }}</a>
+                         <br>
+                   {% endfor %}
+              </td>
+
+         </tr>
 
 
+        {% endif %}
 
-        <div class="row"><div class="span12">
-            <h4>Recipes</h4>
-            {% for recipe in recipes %}
-            <div class="row">
-                <div class="span4"><a href="/r/{{ recipe.id }}"> {{ recipe.recipeName}}</a></div>
-            </div>
-            {% endfor %}
-        </div></div>
 
-     <div class="row"><div class="span12">
-            <h4>Liked Recipes</h4>
-            {% for liked in likedRecipes1 %}
-            <div class="row">
-                <div class="span4"><a href="/r/{{ liked.id }}"> {{ liked.recipeName}}</a></div>
-            </div>
-            {% endfor %}
-        </div></div>
-    </div></div>
 
 {% endblock %}
