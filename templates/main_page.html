@@ -20,15 +20,21 @@ function showDesc(id) {
 
                 <form method="post" action="">
 
-                   {% for r in recipes %}
-
-                    <p> <h4  style="text-decoration: underline; color: darkblue; font-family: cursive"  onclick="showDesc({{ r.id }})">{{ r.recipeName }}</h4>
-                        by  <comment style="text-decoration: underline; font-style: italic" >{{ r.creatorID.username }}</comment> - <comment style="font-style: italic">  {{ r.creationDateTime }}</comment>
-                       <div id="{{ r.id }}" style="visibility: hidden"  ><comment style="font-family: cursive; font-weight: bold; color: darkblue">   Description:</comment> {{ r.recipeDesc }}</div></p>
 
 
+                <div class="row">
 
-                   {% endfor %}
+            {% for recipe in recipes %}
+            <div class="row">
+               <div class="span4" style=" color: #ffffff; font-family: cursive" ><a style="color:darkblue; font-family: cursive; text-decoration: underline; font-size: 20px" href="/r/{{ recipe.id }}">{{ recipe.recipeName}}</a>
+
+               <div> by  <a href="/u/{{ recipe.creatorID.username }}"> {{ recipe.creatorID.username }}</a> - {{ recipe.creationDateTime.date }}</div>
+
+             </div>
+                </div>
+                <br>
+            {% endfor %}
+               </div>
                 </form>
 
 
