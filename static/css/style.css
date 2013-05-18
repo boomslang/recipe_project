@@ -20,3 +20,8 @@
     margin: 10px;
 }
 
+#content_title
+{
+    font-size: large;
+    font-weight: bold;
+}

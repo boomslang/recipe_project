@@ -23,9 +23,11 @@ urlpatterns = patterns('',
     (r'^create/$', 'main.views.create_view'),
 
     (r'^register/', 'main.views.register'),
-#     (r'^profile/(?P<user_name>[^/]+)/$', 'main.views.profile_view'),
 
-# Add your urls here
+    (r'^r/(?P<recipe_id>[^/]+)/$', 'main.views.recipe_view'),
+    (r'^u/(?P<user_name>[^/]+)/$', 'main.views.user_view'),
+    (r'^ajax_like/', 'main.views.ajax_like'),
+
 
 
 

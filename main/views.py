@@ -3,11 +3,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.context_processors import csrf
-from django.http import HttpResponseRedirect
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like
 from recipe_project.settings import STATIC_URL
 
 
@@ -174,3 +175,52 @@ def create_view(request):
        # return render_to_response('profile.html', d)
 
 
+@login_required()
+def recipe_view(request, recipe_id = None):
+    recipe = recipeClass1.objects.get(pk = recipe_id)
+
+    creator_name = recipe.creatorID
+
+    recipe_contents =  recipeContent2.objects.filter(recipeID = recipe)
+
+    content = []
+    for recipe_content in recipe_contents:
+        amount = str(recipe_content.quantity)
+        if recipe_content.measurementUnitID:
+            amount += " " + recipe_content.measurementUnitID.measurementUnitName
+        content.append({'amount' : amount, 'ingredient' : recipe_content.ingredientID})
+
+    liked = False
+    try:
+        Like.objects.get(user = request.user, recipe = recipe)
+        liked = True
+    except:
+        pass
+
+    d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked }
+    return render_to_response('recipe.html', d)
+
+@login_required()
+def user_view(request, user_name = None):
+    user_to_view = User.objects.get(username = user_name)
+    karma = UserProfile.objects.get(user = user_to_view).karma
+
+    recipes = recipeClass1.objects.filter(creatorID = user_to_view)
+
+    d = {'user':request.user, 'user_to_view':user_to_view,'karma' : karma, 'recipes': recipes}
+    return render_to_response('user.html', d)
+
+@login_required()
+def ajax_like(request):
+    if not request.is_ajax():
+        raise Http404
+
+    recipe_id = request.GET.get('recipe_id')
+    recipe = recipeClass1.objects.get(pk = recipe_id)
+
+    try:
+        Like.objects.get(user = request.user, recipe = recipe).delete()
+    except ObjectDoesNotExist:
+        Like.objects.create(user = request.user, recipe = recipe)
+
+    return HttpResponse({}, mimetype='application/json')

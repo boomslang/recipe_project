@@ -111,3 +111,24 @@ class recipeContents_form(forms.Form):
 
 
 admin.site.register(recipeContent2)
+
+class Like(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False)
+    recipe = models.ForeignKey(recipeClass1, blank=False, null=False)
+    def __unicode__(self):
+        return self.user.username + " - "  + self.recipe.recipeName
+
+class Tag(models.Model):
+    description = models.CharField(max_length=20, primary_key=True)
+    def __unicode__(self):
+        return self.description
+
+class UserTagRecipe(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False)
+    recipe = models.ForeignKey(recipeClass1, blank=False, null=False)
+    def __unicode__(self):
+        return self.user.username + " - "  + self.tag.description + " - "  + self.recipe.recipeName
+
+admin.site.register(Like)
+admin.site.register(Tag)
+admin.site.register(UserTagRecipe)
