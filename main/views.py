@@ -54,8 +54,10 @@ def profile_view(request):
     if request.method == 'GET':
         userprofile1=UserProfile()
         user_createdRecipes = recipeClass1.objects.filter(creatorID=request.user.id) #active user_id ?
-
-        d = {"user": request.user, "createdRecipes1": user_createdRecipes, "UserProfile1": userprofile1}
+       # user_to_view2 = User.objects.get(username = user_name)
+        user_likedRecipes = Like.objects.filter(user=request.user)
+        d = {"user": request.user, "createdRecipes1": user_createdRecipes, "UserProfile1": userprofile1,
+             "likedRecipes1": user_likedRecipes}
         d.update(csrf(request))
         return render_to_response('profile.html', d)
 
@@ -206,8 +208,9 @@ def user_view(request, user_name = None):
     karma = UserProfile.objects.get(user = user_to_view).karma
 
     recipes = recipeClass1.objects.filter(creatorID = user_to_view)
-
-    d = {'user':request.user, 'user_to_view':user_to_view,'karma' : karma, 'recipes': recipes}
+    likedRecipes = Like.objects.filter(user = user_to_view)
+    d = {'user':request.user, 'user_to_view':user_to_view,'karma' : karma, 'recipes': recipes,
+         'likedRecipes1': likedRecipes}
     return render_to_response('user.html', d)
 
 @login_required()
