@@ -60,6 +60,8 @@ class recipeClass1(models.Model):
         return self.recipeName
 
 class recipeForm(ModelForm):
+    #class Meta:
+     #   model = recipeClass1
     recipeName = forms.CharField(max_length=100)
     recipeDesc = forms.CharField(max_length=1000, widget=forms.Textarea)
     #creatorID = forms.ModelChoiceField(queryset=UserProfile.objects.all())
