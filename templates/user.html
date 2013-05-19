@@ -19,7 +19,7 @@
 
         </tr>
    </table>
-     {% if recipes and likedRecipes1 %}
+     {% if recipes %}
            <h4><label>Own Recipes:</label></h4>
         <tr>
               <td>
@@ -31,21 +31,40 @@
               </td>
 
          </tr>
+    {% endif %}
+    {% if likedRecipes1 %}
             <h4><label>Liked Recipes:</label></h4>
         <tr>
               <td>
 
                      {% for liked in likedRecipes1 %}
-                        <a href="/r/{{ liked.id }}"> {{ liked.recipeName }}</a>
+                        <a href="/r/{{ liked.recipe.id }}"> {{ liked.recipe.recipeName }}</a>
                          <br>
                    {% endfor %}
               </td>
 
          </tr>
+     {% endif %}
+    {% if mutatedRecipes %}
+            <h4><label>Mutated Recipes:</label></h4>
+        <tr>
+              <td>
+
+                     {% for mutated in mutatedRecipes %}
+                        <a href="/r/{{ mutated.mutatedRecipeID.id }}"> {{ mutated.mutatedRecipeID.recipeName }}</a>
+                         &nbsp; mutated from &nbsp;
+                         <a href="/r/{{ mutated.sourceRecipeID.id }}"> {{ mutated.sourceRecipeID.recipeName }}</a>
+
+                         <br>
+                   {% endfor %}
+              </td>
+
+         </tr>
+     {% endif %}
 
 
-        {% endif %}
-
+</div>
+</div>
 
 
 {% endblock %}

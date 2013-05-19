@@ -5,6 +5,7 @@
         <span>by </span><a href="/u/{{ creator_name }}"> {{ creator_name }}</a>
         <br>
         <a id="like_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="">{% if liked == True %}Unlike{% else %}Like{% endif %}</a>
+        <a id="mutate_button" recipe_id="{{ recipe.pk }}" class="btn btn-link" href="/r/{{ recipe.pk }}/mutate">Mutate</a>
 
         <div class="row"><div class="span12">
             <h3>Description</h3>

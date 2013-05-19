@@ -2,6 +2,7 @@ from django.contrib.auth.models import User, UserManager
 from django.db import models
 from django import forms
 from django.contrib import admin
+from django.forms import ModelForm
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, primary_key = True)
@@ -58,7 +59,7 @@ class recipeClass1(models.Model):
     def __unicode__(self):
         return self.recipeName
 
-class recipeForm(forms.Form):
+class recipeForm(ModelForm):
     recipeName = forms.CharField(max_length=100)
     recipeDesc = forms.CharField(max_length=1000, widget=forms.Textarea)
     #creatorID = forms.ModelChoiceField(queryset=UserProfile.objects.all())
@@ -73,7 +74,9 @@ class ingredient2(models.Model):
     def __unicode__(self):
         return self.ingredientName
 
-class ingredient2_form(forms.Form):
+class ingredient2_form(ModelForm):
+    class Meta:
+        model = ingredient2
     ingredientName = forms.CharField(max_length=100)
 
 
@@ -86,7 +89,9 @@ class measurementUnit2(models.Model):
     def __unicode__(self):
         return self.measurementUnitName
 
-class measurement2_form(forms.Form):
+class measurement2_form(ModelForm):
+    class Meta:
+        model = measurementUnit2
     measurementUnitName = forms.CharField(max_length=100)
 
 admin.site.register(measurementUnit2)
@@ -94,20 +99,23 @@ admin.site.register(measurementUnit2)
 
 class recipeContent2(models.Model):
     #recipeContentsID =  models.AutoField(primary_key = True)
-    recipeID = models.ForeignKey(recipeClass1, blank=False, null=False)
-    ingredientID = models.ForeignKey(ingredient2, blank=True, null=True)
-    measurementUnitID = models.ForeignKey(measurementUnit2, blank=True, null=True)
+    recipeID = models.ForeignKey(recipeClass1)
+    ingredientID = models.ForeignKey(ingredient2)
+    measurementUnitID = models.ForeignKey(measurementUnit2)
     quantity = models.FloatField(default=0)
 
-    #def __unicode__(self):
-     #   return self.quantity
+    def __unicode__(self):
+        return str(self.id) + " - " + self.recipeID.recipeName + " - " + self.ingredientID.ingredientName
 
-class recipeContents_form(forms.Form):
+class recipeContents_form(ModelForm):
+    class Meta:
+        model = recipeContent2
     #recipeID = forms.IntegerField(initial=1)
     quantity = forms.FloatField(initial=0)
     measurementUnitID = forms.ModelChoiceField(queryset=measurementUnit2.objects.all(), initial=1)
 
     ingredientID = forms.ModelChoiceField(queryset=ingredient2.objects.all())
+
 
 
 admin.site.register(recipeContent2)
@@ -129,6 +137,26 @@ class UserTagRecipe(models.Model):
     def __unicode__(self):
         return self.user.username + " - "  + self.tag.description + " - "  + self.recipe.recipeName
 
+class Mutate(models.Model):
+    user = models.ForeignKey(User, blank=False, null=False)
+    #sourceRecipe = models.ForeignKey(recipeClass1)
+    #mutatedRecipe = models.ForeignKey(recipeClass1)
+    sourceRecipeID = models.ForeignKey(recipeClass1, related_name="s+")
+    mutatedRecipeID = models.ForeignKey(recipeClass1, related_name="m+")
+
+    def __unicode__(self):
+        return self.user.username + " - " + self.sourceRecipeID.recipeName + " - " + self.mutatedRecipeID.recipeName
+
+class ReplacedIngredients(models.Model):
+    original_ingredient = models.ForeignKey(ingredient2, related_name="first+")
+    replaced_ingredient = models.ForeignKey(ingredient2, related_name="second+")
+    count = models.IntegerField()
+
+    def __unicode__(self):
+        return self.original_ingredient.ingredientName + " - " + self.replaced_ingredient.ingredientName
+
+admin.site.register(ReplacedIngredients)
+admin.site.register(Mutate)
 admin.site.register(Like)
 admin.site.register(Tag)
 admin.site.register(UserTagRecipe)
