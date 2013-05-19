@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.forms.models import modelform_factory
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Mutate, ReplacedIngredients
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Mutate, ReplacedIngredients, Tag, UserTagRecipe
 from recipe_project.settings import STATIC_URL
 
 
@@ -179,7 +179,7 @@ def recipe_view(request, recipe_id = None):
 
     creator_name = recipe.creatorID
 
-    recipe_contents =  recipeContent2.objects.filter(recipeID = recipe)
+    recipe_contents = recipeContent2.objects.filter(recipeID = recipe)
 
     content = []
     for recipe_content in recipe_contents:
@@ -228,8 +228,7 @@ def ajax_like(request):
 @login_required()
 def mutate_view(request, recipe_id = None):
     recipe = recipeClass1.objects.get(pk = recipe_id)
-    recipe_contents =  recipeContent2.objects.filter(recipeID = recipe)
-
+    recipe_contents = recipeContent2.objects.filter(recipeID = recipe)
 
     recipe_form1 = recipeForm(instance=recipe)
 
@@ -267,99 +266,144 @@ def mutate_view(request, recipe_id = None):
         formset6 = recipeContents_form(request.POST, prefix="e")
         if len(recipe_contents) > 0:
             formset2 = recipeContents_form(request.POST, instance=recipe_contents[0], prefix="a")
-            if recipe_contents[0].ingredientID.id != formset2.data["a-ingredientID"]:
+            if formset2.data["a-ingredientID"] != 0 and recipe_contents[0].ingredientID.id != formset2.data["a-ingredientID"]:
                 originalIng = ingredient2.objects.get(id=recipe_contents[0].ingredientID.id)
                 replacedIng = ingredient2.objects.get(id=formset2.data["a-ingredientID"])
-                try:
-                    new_replacedIngredient = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
-                    new_replacedIngredient.count += 1
-                    new_replacedIngredient.save()
-                except ObjectDoesNotExist:
-                    new_replacedIngredient = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
+                if originalIng.ingredientName != replacedIng.ingredientName:
+                    try:
+                        new_replacedIngredient = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                        new_replacedIngredient.count += 1
+                        new_replacedIngredient.save()
+                    except ObjectDoesNotExist:
+                        new_replacedIngredient = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
         if len(recipe_contents) > 1:
             formset3 = recipeContents_form(request.POST, instance=recipe_contents[1], prefix="b")
+            if formset3.data["b-ingredientID"] != 0 and recipe_contents[1].ingredientID.id != formset3.data["b-ingredientID"]:
+                originalIng = ingredient2.objects.get(id=recipe_contents[1].ingredientID.id)
+                replacedIng = ingredient2.objects.get(id=formset2.data["b-ingredientID"])
+                if originalIng.ingredientName != replacedIng.ingredientName:
+                    try:
+                        new_replacedIngredient2 = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                        new_replacedIngredient2.count += 1
+                        new_replacedIngredient2.save()
+                    except ObjectDoesNotExist:
+                        new_replacedIngredient2 = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
         if len(recipe_contents) > 2:
             formset4 = recipeContents_form(request.POST, instance=recipe_contents[2], prefix="c")
+            if formset4.data["c-ingredientID"] != 0 and recipe_contents[2].ingredientID.id != formset4.data["c-ingredientID"]:
+                originalIng = ingredient2.objects.get(id=recipe_contents[2].ingredientID.id)
+                replacedIng = ingredient2.objects.get(id=formset4.data["c-ingredientID"])
+                if originalIng.ingredientName != replacedIng.ingredientName:
+                    try:
+                        new_replacedIngredient3 = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                        new_replacedIngredient3.count += 1
+                        new_replacedIngredient3.save()
+                    except ObjectDoesNotExist:
+                        new_replacedIngredient3 = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
         if len(recipe_contents) > 3:
             formset5 = recipeContents_form(request.POST, instance=recipe_contents[3], prefix="d")
+            if formset5.data["d-ingredientID"] != 0 and recipe_contents[3].ingredientID.id != formset5.data["d-ingredientID"]:
+                originalIng = ingredient2.objects.get(id=recipe_contents[3].ingredientID.id)
+                replacedIng = ingredient2.objects.get(id=formset5.data["d-ingredientID"])
+                if originalIng.ingredientName != replacedIng.ingredientName:
+                    try:
+                        new_replacedIngredient4 = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                        new_replacedIngredient4.count += 1
+                        new_replacedIngredient4.save()
+                    except ObjectDoesNotExist:
+                        new_replacedIngredient4 = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
         if len(recipe_contents) > 4:
             formset6 = recipeContents_form(request.POST, instance=recipe_contents[4], prefix="e")
+            if formset6.data["e-ingredientID"] != 0 and recipe_contents[4].ingredientID.id != formset6.data["e-ingredientID"]:
+                originalIng = ingredient2.objects.get(id=recipe_contents[4].ingredientID.id)
+                replacedIng = ingredient2.objects.get(id=formset6.data["e-ingredientID"])
+                if originalIng.ingredientName != replacedIng.ingredientName:
+                    try:
+                        new_replacedIngredient5 = ReplacedIngredients.objects.get(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                        new_replacedIngredient5.count += 1
+                        new_replacedIngredient5.save()
+                    except ObjectDoesNotExist:
+                        new_replacedIngredient5 = ReplacedIngredients.objects.create(original_ingredient=originalIng, replaced_ingredient=replacedIng, count=1)
 
-        if formset1.is_valid() and formset1.data["recipeName"] != "":
+        if formset1.is_valid():
             new_recipe = recipeClass1.objects.create()
             new_recipe.recipeName = formset1.data["recipeName"]
             new_recipe.recipeDesc = formset1.data["recipeDesc"]
             new_recipe.creatorID = request.user
             new_recipe.save()
 
-        if formset2.has_changed():
+            if formset2.has_changed():
 
-            contents = recipeContent2.objects.create()
-            contents.quantity = formset2.data["a-quantity"]
-            i = formset2.data["a-ingredientID"]
-            ingred = ingredient2.objects.get(pk=i)
-            contents.ingredientID = ingred
-            m = formset2.data["a-measurementUnitID"]
-            meas = measurementUnit2.objects.get(pk=m)
-            contents.measurementUnitID = meas
-            r = recipeClass1.objects.get(id=new_recipe.id)
-            contents.recipeID = r
-            contents.save()
-        if formset3.has_changed():
+                contents = recipeContent2.objects.create()
+                contents.quantity = formset2.data["a-quantity"]
+                i = formset2.data["a-ingredientID"]
+                ingred = ingredient2.objects.get(pk=i)
+                contents.ingredientID = ingred
+                m = formset2.data["a-measurementUnitID"]
+                meas = measurementUnit2.objects.get(pk=m)
+                contents.measurementUnitID = meas
+                r = recipeClass1.objects.get(id=new_recipe.id)
+                contents.recipeID = r
+                contents.save()
 
-            contents = recipeContent2.objects.create()
-            contents.quantity = formset3.data["b-quantity"]
-            i = formset3.data["b-ingredientID"]
-            ingred = ingredient2.objects.get(pk=i)
-            contents.ingredientID = ingred
-            m = formset3.data["b-measurementUnitID"]
-            meas = measurementUnit2.objects.get(pk=m)
-            contents.measurementUnitID = meas
-            r = recipeClass1.objects.get(id=new_recipe.id)
-            contents.recipeID = r
-            contents.save()
-        if formset4.has_changed():
+            if formset3.has_changed():
 
-            contents = recipeContent2.objects.create()
-            contents.quantity = formset4.data["c-quantity"]
-            i = formset4.data["c-ingredientID"]
-            ingred = ingredient2.objects.get(pk=i)
-            contents.ingredientID = ingred
-            m = formset4.data["c-measurementUnitID"]
-            meas = measurementUnit2.objects.get(pk=m)
-            contents.measurementUnitID = meas
-            r = recipeClass1.objects.get(id=new_recipe.id)
-            contents.recipeID = r
-            contents.save()
-        if formset5.has_changed():
+                contents = recipeContent2.objects.create()
+                contents.quantity = formset3.data["b-quantity"]
+                i = formset3.data["b-ingredientID"]
+                ingred = ingredient2.objects.get(pk=i)
+                contents.ingredientID = ingred
+                m = formset3.data["b-measurementUnitID"]
+                meas = measurementUnit2.objects.get(pk=m)
+                contents.measurementUnitID = meas
+                r = recipeClass1.objects.get(id=new_recipe.id)
+                contents.recipeID = r
+                contents.save()
 
-            contents = recipeContent2.objects.create()
-            contents.quantity = formset5.data["d-quantity"]
-            i = formset5.data["d-ingredientID"]
-            ingred = ingredient2.objects.get(pk=i)
-            contents.ingredientID = ingred
-            m = formset5.data["d-measurementUnitID"]
-            meas = measurementUnit2.objects.get(pk=m)
-            contents.measurementUnitID = meas
-            r = recipeClass1.objects.get(id=new_recipe.id)
-            contents.recipeID = r
-            contents.save()
-        if formset6.has_changed():
+            if formset4.has_changed():
 
-            contents = recipeContent2.objects.create()
-            contents.quantity = formset6.data["e-quantity"]
-            i = formset6.data["e-ingredientID"]
-            ingred = ingredient2.objects.get(pk=i)
-            contents.ingredientID = ingred
-            m = formset6.data["e-measurementUnitID"]
-            meas = measurementUnit2.objects.get(pk=m)
-            contents.measurementUnitID = meas
-            r = recipeClass1.objects.get(id=new_recipe.id)
-            contents.recipeID = r
-            contents.save()
+                contents = recipeContent2.objects.create()
+                contents.quantity = formset4.data["c-quantity"]
+                i = formset4.data["c-ingredientID"]
+                ingred = ingredient2.objects.get(pk=i)
+                contents.ingredientID = ingred
+                m = formset4.data["c-measurementUnitID"]
+                meas = measurementUnit2.objects.get(pk=m)
+                contents.measurementUnitID = meas
+                r = recipeClass1.objects.get(id=new_recipe.id)
+                contents.recipeID = r
+                contents.save()
+
+            if formset5.has_changed():
+
+                contents = recipeContent2.objects.create()
+                contents.quantity = formset5.data["d-quantity"]
+                i = formset5.data["d-ingredientID"]
+                ingred = ingredient2.objects.get(pk=i)
+                contents.ingredientID = ingred
+                m = formset5.data["d-measurementUnitID"]
+                meas = measurementUnit2.objects.get(pk=m)
+                contents.measurementUnitID = meas
+                r = recipeClass1.objects.get(id=new_recipe.id)
+                contents.recipeID = r
+                contents.save()
+
+            if formset6.has_changed():
+
+                contents = recipeContent2.objects.create()
+                contents.quantity = formset6.data["e-quantity"]
+                i = formset6.data["e-ingredientID"]
+                ingred = ingredient2.objects.get(pk=i)
+                contents.ingredientID = ingred
+                m = formset6.data["e-measurementUnitID"]
+                meas = measurementUnit2.objects.get(pk=m)
+                contents.measurementUnitID = meas
+                r = recipeClass1.objects.get(id=new_recipe.id)
+                contents.recipeID = r
+                contents.save()
 
 
-        new_mutated_object = Mutate.objects.create(user=request.user, sourceRecipeID=recipe, mutatedRecipeID=r)
+            new_mutated_object = Mutate.objects.create(user=request.user, sourceRecipeID=recipe, mutatedRecipeID=r)
 
 
 
