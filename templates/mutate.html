@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block body %}
+    <span><h2>Mutate the recipe!</h2></span>
+    {% if recipeForm1 and recipeContentForm1 %}
+        <form method="post" action="" class="form-horizontal well">{% csrf_token %}
+
+
+          <tr>
+              <td>
+                  <label>Recipe Name:</label>
+                  {{ recipeForm1.recipeName }}
+
+
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient1:</label>
+                 {{ recipeContentForm1.quantity }}
+
+                 {{ recipeContentForm1.measurementUnitID }}
+
+                 {{ recipeContentForm1.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient2:</label>
+                 {{ recipeContentForm2.quantity }}
+
+                 {{ recipeContentForm2.measurementUnitID }}
+
+                 {{ recipeContentForm2.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+                  <label>Ingredient3:</label>
+                 {{ recipeContentForm3.quantity }}
+
+                 {{ recipeContentForm3.measurementUnitID }}
+
+                 {{ recipeContentForm3.ingredientID }}
+              </td>
+          </tr>
+            <tr>
+              <td>
+                  <label>Ingredient4:</label>
+                 {{ recipeContentForm4.quantity }}
+
+                 {{ recipeContentForm4.measurementUnitID }}
+
+                 {{ recipeContentForm4.ingredientID }}
+              </td>
+          </tr>
+            <tr>
+              <td>
+                  <label>Ingredient5:</label>
+                 {{ recipeContentForm5.quantity }}
+
+                 {{ recipeContentForm5.measurementUnitID }}
+
+                 {{ recipeContentForm5.ingredientID }}
+              </td>
+          </tr>
+          <tr>
+              <td>
+
+                  <label>Recipe Steps:</label>
+                 {{ recipeForm1.recipeDesc }}
+              </td>
+          </tr>
+
+
+            <p>
+          <tr>
+              <td>
+
+                  <br>
+            <input type="submit" name="submit" value="Save Mutation!">
+              </td>
+        </tr>
+        </p>
+        </form>
+
+    {% endif %}
+{% endblock %}
