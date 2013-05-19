@@ -9,7 +9,7 @@ from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.forms.models import modelform_factory
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Mutate, ReplacedIngredients, Tag, UserTagRecipe
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Mutate, ReplacedIngredients, Tag,tag_form, UserTagRecipe
 from recipe_project.settings import STATIC_URL
 
 
@@ -178,7 +178,7 @@ def recipe_view(request, recipe_id = None):
     recipe = recipeClass1.objects.get(pk = recipe_id)
 
     creator_name = recipe.creatorID
-
+    numberLikes= Like.objects.filter(recipe=recipe).count()
     recipe_contents = recipeContent2.objects.filter(recipeID = recipe)
 
     content = []
@@ -195,8 +195,31 @@ def recipe_view(request, recipe_id = None):
     except:
         pass
 
-    d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked }
+    d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked,
+         'numberLikes1': numberLikes}
     return render_to_response('recipe.html', d)
+
+@login_required()
+def tag_view(request, recipe_id = None):
+
+    recipe = recipeClass1.objects.get(pk = recipe_id)
+
+    if request.method=='GET':
+        tag_form1= tag_form()
+        d= {'user': request.user, 'tagForm1': tag_form1}
+        d.update(csrf(request))
+        return render_to_response('tag.html', d)
+    else:
+        tag_formset=tag_form(request.POST, request.FILES)
+
+        if tag_formset.has_changed():
+            tags = Tag.objects.create(description=tag_formset.data['description'])
+            tags.save()
+
+            user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
+            user_tags.save()
+
+        return recipe_view(request)
 
 @login_required()
 def user_view(request, user_name = None):
@@ -209,6 +232,7 @@ def user_view(request, user_name = None):
     d = {'user':request.user, 'user_to_view':user_to_view,'karma' : karma, 'recipes': recipes,
          'likedRecipes1': likedRecipes, 'mutatedRecipes': mutatedRecipes}
     return render_to_response('user.html', d)
+
 
 @login_required()
 def ajax_like(request):
