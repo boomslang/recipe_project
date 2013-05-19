@@ -133,9 +133,13 @@ class Tag(models.Model):
     def __unicode__(self):
         return self.description
 
+class tag_form(forms.Form):
+    description = forms.CharField(max_length=20)
+
 class UserTagRecipe(models.Model):
     user = models.ForeignKey(User, blank=False, null=False)
     recipe = models.ForeignKey(recipeClass1, blank=False, null=False)
+    tag = models.ForeignKey(Tag ,blank=False, null=False )
     def __unicode__(self):
         return self.user.username + " - "  + self.tag.description + " - "  + self.recipe.recipeName
 
