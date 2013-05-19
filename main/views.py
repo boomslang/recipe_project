@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Tag, tag_form, UserTagRecipe
 from recipe_project.settings import STATIC_URL
 
 
@@ -182,7 +182,7 @@ def recipe_view(request, recipe_id = None):
     recipe = recipeClass1.objects.get(pk = recipe_id)
 
     creator_name = recipe.creatorID
-
+    numberLikes= Like.objects.filter(recipe=recipe).count()
     recipe_contents =  recipeContent2.objects.filter(recipeID = recipe)
 
     content = []
@@ -199,8 +199,11 @@ def recipe_view(request, recipe_id = None):
     except:
         pass
 
-    d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked }
+    d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked,
+         'numberLikes1': numberLikes}
     return render_to_response('recipe.html', d)
+
+
 
 @login_required()
 def user_view(request, user_name = None):
