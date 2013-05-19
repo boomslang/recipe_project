@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect, Http404, HttpResponse
 from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
-from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Tag, tag_form, UserTagRecipe
+from main.models import UserForm, UserProfile, recipeForm, recipeClass1, recipeContent2, recipeContents_form, ingredient2, measurementUnit2, Like, Tag, UserTagRecipe
 from recipe_project.settings import STATIC_URL
 
 
