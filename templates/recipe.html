@@ -29,6 +29,18 @@
             </div>
             {% endfor %}
         </div></div>
+    <br>
+        <td style="font-weight: bold; font-size: 14px">Tags: </td>
+
+        {% if recipeTags1 %}
+
+             {% for tag in recipeTags1 %}
+                 <td>{{ tag.tag.description}}</td> <td>; </td>
+
+             {% endfor %}
+         {% else %}
+            <label>No tags</label>
+        {%  endif %}
     </div></div>
 
 
