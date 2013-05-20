@@ -9,7 +9,7 @@
         <td>Likes: </td><td>{{ numberLikes1 }}</td><td>   </td>
         <a id="like_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="">{% if liked == True %}Unlike{% else %}Like{% endif %}</a>
         <a id="mutate_button" recipe_id="{{ recipe.pk }}" class="btn btn-link" href="/r/{{ recipe.pk }}/mutate">Mutate</a>
-        <a id="like_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="/r/{{ recipe.pk }}/tag" >Tag</a>
+        <a id="tag_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="/r/{{ recipe.pk }}/tag" >Tag</a>
 
 
         <div class="row"><div class="span12">
