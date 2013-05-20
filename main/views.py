@@ -219,7 +219,7 @@ def tag_view(request, recipe_id = None):
             user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
             user_tags.save()
 
-        return recipe_view(request)
+        return HttpResponseRedirect('/r/%s' % recipe.id)
 
 @login_required()
 def user_view(request, user_name = None):
