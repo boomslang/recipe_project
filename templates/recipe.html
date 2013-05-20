@@ -9,7 +9,7 @@
         <td>Likes: </td><td>{{ numberLikes1 }}</td><td>   </td>
         <a id="like_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="">{% if liked == True %}Unlike{% else %}Like{% endif %}</a>
         <a id="mutate_button" recipe_id="{{ recipe.pk }}" class="btn btn-link" href="/r/{{ recipe.pk }}/mutate">Mutate</a>
-        <a id="tag_button" recipe_id="{{ recipe.pk }}" class="btn btn-warning" href="/r/{{ recipe.pk }}/tag" >Tag</a>
+        <a id="tag_button" recipe_id="{{ recipe.pk }}" class="btn btn-danger" href="/r/{{ recipe.pk }}/tag" >Tag</a>
 
 
         <div class="row"><div class="span12">
@@ -30,12 +30,12 @@
             {% endfor %}
         </div></div>
     <br>
-        <td style="font-weight: bold; font-size: 14px">Tags: </td>
+        <comment style="font-weight: bold; font-size: 18px; color: bisque" >Tags:  &nbsp;</comment>
 
         {% if recipeTags1 %}
 
              {% for tag in recipeTags1 %}
-                 <td>{{ tag.tag.description}}</td> <td>; </td>
+                 #{{ tag.tag.description}} &nbsp;
 
              {% endfor %}
          {% else %}
