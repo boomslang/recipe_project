@@ -180,6 +180,7 @@ def recipe_view(request, recipe_id = None):
     creator_name = recipe.creatorID
     numberLikes= Like.objects.filter(recipe=recipe).count()
     recipe_contents = recipeContent2.objects.filter(recipeID = recipe)
+    recipeTags= UserTagRecipe.objects.filter(recipe=recipe)
 
     content = []
     for recipe_content in recipe_contents:
@@ -196,7 +197,7 @@ def recipe_view(request, recipe_id = None):
         pass
 
     d = {'user':request.user, 'recipe' : recipe, 'creator_name': creator_name, 'content':content, 'liked': liked,
-         'numberLikes1': numberLikes}
+         'numberLikes1': numberLikes, 'recipeTags1': recipeTags}
     return render_to_response('recipe.html', d)
 
 @login_required()
