@@ -14,7 +14,7 @@ from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.forms.models import modelform_factory
-from main.models import UserForm, UserProfile, RecipeForm, Recipe, RecipeContent, RecipeContentForm, Ingredient, MeasurementUnit, Like, Mutate, ReplacedIngredients, Tag,TagForm, UserTagRecipe, SearchForm
+from main.models import UserForm, UserProfile, RecipeForm, Recipe, RecipeContent, RecipeContentForm, Ingredient, MeasurementUnit, Like, Mutate, ReplacedIngredients, Tag,TagForm, UserTagRecipe, SearchForm, RecipeAndRecipeContent, Replacement, MutateAndReplacement
 from recipe_project.settings import STATIC_URL
 
 from datetime import datetime
@@ -77,7 +77,7 @@ def search_recipe(query):
         key=lambda instance: instance.creationDateTime)
     # recipe_list = list(set(list(recipe_list)) | set(recipe_list2))
 
-    return result_list
+    return result_list[::-1]
 
 def register(request):
     if request.method == 'POST':
@@ -151,9 +151,8 @@ def create_view(request):
             for ind,rc_form in enumerate(rc_forms):
                 if rc_form.is_valid():
                     recipe_content = rc_form.save(commit=False)
-                    recipe_content.recipe = recipe
-                    recipe_content.save()
-
+                    rc, found = RecipeContent.objects.get_or_create(ingredient=recipe_content.ingredient,measurementUnit=recipe_content.measurementUnit,quantity=recipe_content.quantity)
+                    RecipeAndRecipeContent.objects.create(recipe=recipe, recipe_content=rc)
 
             return HttpResponseRedirect('/r/%s' % recipe.id)
         else:
@@ -169,7 +168,11 @@ def recipe_view(request, recipe_id = None):
     # numberLikes= Like.objects.filter(recipe=recipe).count()
     numberLikes= recipe.num_likes
 
-    recipe_contents = RecipeContent.objects.filter(recipe = recipe)
+    recipe_contents = RecipeAndRecipeContent.objects.filter(recipe = recipe)
+
+    ids = RecipeAndRecipeContent.objects.values_list('recipe_content', flat=True).filter(recipe=recipe)
+    recipe_contents = RecipeContent.objects.filter(pk__in=set(ids))
+
     recipeTags= UserTagRecipe.objects.filter(recipe=recipe)
 
     content = []
@@ -253,7 +256,8 @@ def ajax_like(request):
 def mutate_view(request, recipe_id = None):
     max_ingredients = 10
     original_recipe = Recipe.objects.get(pk = recipe_id)
-    recipe_contents = RecipeContent.objects.filter(recipe = original_recipe)
+    ids = RecipeAndRecipeContent.objects.values_list('recipe_content', flat=True).filter(recipe=original_recipe)
+    recipe_contents = RecipeContent.objects.filter(pk__in=set(ids))
 
     if request.method == 'GET':
 
@@ -282,22 +286,33 @@ def mutate_view(request, recipe_id = None):
             recipe.creationDateTime = datetime.now()
             recipe.save()
 
-            Mutate.objects.create(user=request.user, source_recipe=original_recipe, mutated_recipe=recipe)
+            mutation = Mutate.objects.create(user=request.user, source_recipe=original_recipe, mutated_recipe=recipe)
 
             for ind,rc_form in enumerate(rc_forms):
                 if rc_form.is_valid():
                     recipe_content = rc_form.save(commit=False)
-                    recipe_content.recipe = recipe
-                    recipe_content.save()
-                    new_ingredient_id = rc_form.data[str(ind) + '-ingredient']
-                    if len(recipe_contents) > ind and str(recipe_contents[ind].ingredient.id) != new_ingredient_id:
-                        originalIng = Ingredient.objects.get(pk = recipe_contents[ind].ingredient.id)
-                        replacedIng = Ingredient.objects.get(pk = new_ingredient_id)
-                        # new_replacedIngredient = ReplacedIngredients.objects.get_or_create(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
-                        new_replacedIngredient,succeed = ReplacedIngredients.objects.get_or_create(original_ingredient=originalIng, replaced_ingredient=replacedIng)
-                        new_replacedIngredient.count += 1
-                        new_replacedIngredient.save()
+                    rc, found = RecipeContent.objects.get_or_create(ingredient=recipe_content.ingredient,measurementUnit=recipe_content.measurementUnit,quantity=recipe_content.quantity)
+                    RecipeAndRecipeContent.objects.create(recipe=recipe, recipe_content=rc)
 
+                    if len(recipe_contents) > ind:
+                        new_i = recipe_content.ingredient
+                        new_m = recipe_content.measurementUnit
+                        new_q = recipe_content.quantity
+                        original_rc = recipe_contents[ind]
+
+                        old_i = original_rc.ingredient
+                        old_m = original_rc.measurementUnit
+                        old_q = original_rc.quantity
+
+                        if old_i != new_i or old_m != new_m or old_q != new_q:
+                            replacement = Replacement.objects.create(original_rc=original_rc, new_rc=rc)
+                            MutateAndReplacement.objects.create(mutation=mutation,replacement=replacement)
+
+                        if old_i != new_i:
+                            # new_replacedIngredient = ReplacedIngredients.objects.get_or_create(original_ingredient__in=[originalIng, replacedIng], replaced_ingredient__in=[originalIng,replacedIng])
+                            new_replacedIngredient,succeed = ReplacedIngredients.objects.get_or_create(original_ingredient=old_i, replaced_ingredient=new_i)
+                            new_replacedIngredient.count += 1
+                            new_replacedIngredient.save()
 
             return HttpResponseRedirect('/r/%s' % recipe.id)
         else:

@@ -92,18 +92,25 @@ class MeasurementUnit(models.Model):
 
 class RecipeContent(models.Model):
     #recipeContentsID =  models.AutoField(primary_key = True)
-    recipe = models.ForeignKey(Recipe)
+    # recipe = models.ForeignKey(Recipe)
     ingredient = models.ForeignKey(Ingredient)
     measurementUnit = models.ForeignKey(MeasurementUnit)
     quantity = models.FloatField(default=0)
 
     def __unicode__(self):
-        return str(self.id) + " - " + self.recipe.recipeName + " - " + self.ingredient.ingredientName
+        return "RecipeContent"+str(self.id)
+
+class RecipeAndRecipeContent(models.Model):
+    recipe = models.ForeignKey(Recipe)
+    recipe_content = models.ForeignKey(RecipeContent)
+    def __unicode__(self):
+        return self.recipe.recipeName + " - " + self.recipe_content.__unicode__()
+
 
 class RecipeContentForm(ModelForm):
-    class Meta:
-        model = RecipeContent
-        exclude = ('recipe',)
+    # class Meta:
+    #     model = RecipeContent
+    #     exclude = ('recipe',)
     quantity = forms.FloatField(initial=0)
     measurementUnit = forms.ModelChoiceField(queryset=MeasurementUnit.objects.all(), initial=1)
     ingredient = forms.ModelChoiceField(queryset=Ingredient.objects.all())
@@ -146,6 +153,18 @@ class ReplacedIngredients(models.Model):
     def __unicode__(self):
         return self.original_ingredient.ingredientName + " - " + self.replaced_ingredient.ingredientName
 
+class Replacement(models.Model):
+    original_rc = models.ForeignKey(RecipeContent,null=False, related_name="original_")
+    new_rc = models.ForeignKey(RecipeContent,null=False, related_name="new_")
+    def __unicode__(self):
+        return "replacement-" + str(self.original_rc_id) + "-" + str(self.new_rc_id)
+
+class MutateAndReplacement(models.Model):
+    mutation = models.ForeignKey(Mutate)
+    replacement = models.ForeignKey(Replacement)
+    def __unicode__(self):
+        return "mutate_and_replacement-" + str(self.mutation_id) + "-" + str(self.replacement_id)
+
 class SearchForm(forms.Form):
     query = forms.CharField(max_length=100,required=True, help_text='Search for recipes!')
 
@@ -159,3 +178,6 @@ admin.site.register(Mutate)
 admin.site.register(Like)
 admin.site.register(Tag)
 admin.site.register(UserTagRecipe)
+admin.site.register(RecipeAndRecipeContent)
+admin.site.register(Replacement)
+admin.site.register(MutateAndReplacement)

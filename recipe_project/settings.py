@@ -72,7 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'C:/Users/murat/PycharmProjects/recipe_project/static/',
+    '/home/murat/PycharmProjects/recipe_project/static/',
 )
 
 # List of finder classes that know how to find static files in
@@ -155,5 +155,5 @@ LOGGING = {
 }
 
 
-DOCUMENT_ROOT =  'C:/Users/murat/PycharmProjects/recipe_project'
+DOCUMENT_ROOT =  '/home/murat/PycharmProjects/recipe_project'
 LOGIN_URL = '/login/'
