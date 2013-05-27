@@ -11,7 +11,7 @@
 /*}*/
 
 #page {
-    margin-top: 30px;
+    margin-top: 40px;
     /*background: rgba(65, 70, 70, 0.4);*/
     /*border: solid 1px #474949;*/
     /*border-top: 0;*/
@@ -25,3 +25,21 @@
     font-size: large;
     font-weight: bold;
 }
+
+#search_box
+{
+    bottom: 0;
+}
+
+.h1_no_new_line
+{
+    font-size: 38.5px;
+    line-height: 40px;
+
+    margin: 10px 0;
+    font-family: 'Lobster',cursive;
+    font-weight: normal;
+    color: inherit;
+    text-rendering: optimizelegibility;
+}
+

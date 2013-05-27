@@ -7,14 +7,13 @@
         <table>
         <tr>
               <td>
-                  <label>E-Mail : {{user_to_view.email  }}</label>
+                  <span>E-Mail : {{user_to_view.email  }}</span>
 
               </td>
          </tr>
          <tr>
                <td>
-                  <label>User Karma:</label>
-                 {{  karma }}
+                    <span> User Karma: {{ karma }} </span>
               </td>
 
         </tr>
@@ -51,9 +50,9 @@
               <td>
 
                      {% for mutated in mutatedRecipes %}
-                        <a href="/r/{{ mutated.mutatedRecipeID.id }}"> {{ mutated.mutatedRecipeID.recipeName }}</a>
+                        <a href="/r/{{ mutated.mutated_recipe.id }}"> {{ mutated.mutated_recipe.recipeName }}</a>
                          &nbsp; mutated from &nbsp;
-                         <a href="/r/{{ mutated.sourceRecipeID.id }}"> {{ mutated.sourceRecipeID.recipeName }}</a>
+                         <a href="/r/{{ mutated.source_recipe.id }}"> {{ mutated.source_recipe.recipeName }}</a>
 
                          <br>
                    {% endfor %}

@@ -23,20 +23,42 @@
 
 </head>
 <body>
-
-    <div class="subnav">
-        <ul class="nav nav-pills">
-{#            <li class="active"><a href="/">Recipe List</a></li>#}
+<div class="navbar navbar-fixed-top">
+   <div class="navbar-inner">
+     <div class="container">
+       <a class="brand" href="/">CoCo Recipes</a>
+       <div class="nav-collapse collapse" id="main-menu">
+        <ul class="nav" id="main-menu-left">
             <li><a href="/">Recipe List</a></li>
 
             {% if user.is_authenticated %}
+{#            Welcome <a href="/profile">{{ user.username }}!</a>#}
             <li><a href="/profile">Profile</a></li>
             <li><a href="/create">Create a New Recipe</a></li>
-            <li><a href="/logout">log out</a></li>
-            {% else %}
-            <li> <a href="/login/">login</a></li>
-            <li><a href="/register/">register</a> </li>
+
             {% endif %}
+
+        </ul>
+
+        <ul class="nav pull-right" id="main-menu-right">
+
+          {% if user.is_authenticated %}
+              <li><span>Welcome <a href="/profile">{{ user.username }}!</a></span></li>
+              <li><a href="/logout">log out</a></li>
+          {% else %}
+              <li> <a href="/login/">login</a></li>
+              <li><a href="/register/">register</a> </li>
+          {% endif %}
+
+        </ul>
+       </div>
+     </div>
+   </div>
+ </div>
+    <div class="subnav">
+        <ul class="nav nav-pills">
+{#            <li class="active"><a href="/">Recipe List</a></li>#}
+
 
         </ul>
     </div>
