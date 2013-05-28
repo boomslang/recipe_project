@@ -20,7 +20,7 @@ from recipe_project.settings import STATIC_URL
 from datetime import datetime
 
 def mainPage_view(request):
-    # add_ingredients()
+    #add_ingredients()
     #add_measurement_units()
 
     page_size = 5
@@ -322,7 +322,7 @@ def mutate_view(request, recipe_id = None):
 
 
 def add_ingredients():
-    items = ["orange","olive oil","spinach","onion","sugar","salt","water","egg","rice","beef","tomato","Chili pepper",
+    items = ["Chili pepper",
              "Cubeb","Turmeric","Chives","Tarragon","Buddha's hand","Chayote","Blueberry","Fennel","Cardoon","Onion",
              "Veal","Sirloin steak","Bacon","Tomato","Bean","Pasta","Butternut squash","Fruit","Cream","Rice","Mustard",
              "Ketchup","Worcestershire sauce","Sambal","Lentil","Potato","Lamb and mutton","Pork","Sourdough","Yeast",
@@ -393,6 +393,9 @@ def add_ingredients():
     for item in items:
         Ingredient.objects.get_or_create(ingredientName = item)
 def add_measurement_units():
-    items = ["lt","ml","piece","unit","pound","kg","gram","tablespoon","teaspoon","cup"]
+    items = ["Gallon (US)","Kilogram","Liter","Pound","Teaspoon","Tablespoon","Ounce","Pint (US)","Quart (US)","Fluid ounce (US)","Head","Dessert spoon","Cup","Gill","Pinch","Sachet","Jigger","Gram","Milliliter","Gallon (Imperial)","Fluid ounce (imperial)","Quart (Imperial)","Cubic centimetre","Dash","Tablespoon (AU)","Cup (Imperial)","Cup (Metric)","Cup (US)","Cup (Japan)","Pint (US dry)","Pint (metric)","Quart (US dry)","Gallon (US dry)","Gill (Imperial)","Centiliter","strips","Sprig","Bunch","clove","mL","mL","Cloves"]
+
+    items = sorted(items)
+
     for item in items:
         MeasurementUnit.objects.get_or_create(measurementUnitName = item)
