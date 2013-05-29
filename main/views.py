@@ -162,6 +162,11 @@ def create_view(request):
 
 @login_required()
 def recipe_view(request, recipe_id = None):
+    """
+
+    :param request:
+    :param recipe_id:
+    """
     recipe = Recipe.objects.get(pk = recipe_id)
 
     creator_name = recipe.creator
@@ -178,6 +183,10 @@ def recipe_view(request, recipe_id = None):
     content = []
     for recipe_content in recipe_contents:
         amount = str(recipe_content.quantity)
+
+        if amount[-2:]=='.0':
+            amount = amount[:-2]
+
         if recipe_content.measurementUnit:
             amount += " " + recipe_content.measurementUnit.measurementUnitName
         content.append({'amount' : amount, 'ingredient' : recipe_content.ingredient})
