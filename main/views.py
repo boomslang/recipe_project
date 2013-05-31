@@ -20,8 +20,8 @@ from recipe_project.settings import STATIC_URL
 from datetime import datetime
 
 def mainPage_view(request):
-    #add_ingredients()
-    #add_measurement_units()
+    add_ingredients()
+    add_measurement_units()
 
     page_size = 5
     recipe_list = []
@@ -216,11 +216,19 @@ def tag_view(request, recipe_id = None):
         TagFormset=TagForm(request.POST, request.FILES)
 
         if TagFormset.has_changed():
-            tags = Tag.objects.create(description=TagFormset.data['description'])
-            tags.save()
+            try:
+                tags = Tag.objects.get(description=TagFormset.data['description'])
 
-            user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
-            user_tags.save()
+            except ObjectDoesNotExist:
+                tags = Tag.objects.create(description=TagFormset.data['description'])
+                tags.save()
+
+            try:
+                user_tags=UserTagRecipe.objects.get(recipe=recipe, tag=tags)
+
+            except ObjectDoesNotExist:
+                user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
+                user_tags.save()
 
         return HttpResponseRedirect('/r/%s' % recipe.id)
 
