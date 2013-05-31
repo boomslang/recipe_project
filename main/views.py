@@ -178,7 +178,11 @@ def recipe_view(request, recipe_id = None):
     ids = RecipeAndRecipeContent.objects.values_list('recipe_content', flat=True).filter(recipe=recipe)
     recipe_contents = RecipeContent.objects.filter(pk__in=set(ids))
 
-    recipeTags= UserTagRecipe.objects.filter(recipe=recipe)
+    recipeTags = UserTagRecipe.objects.filter(recipe=recipe)
+
+
+
+
 
     content = []
     for recipe_content in recipe_contents:
@@ -224,8 +228,7 @@ def tag_view(request, recipe_id = None):
                 tags.save()
 
             try:
-                user_tags=UserTagRecipe.objects.get(recipe=recipe, tag=tags)
-
+                user_tags=UserTagRecipe.objects.get(user=request.user, recipe=recipe, tag=tags)
             except ObjectDoesNotExist:
                 user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
                 user_tags.save()
