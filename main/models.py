@@ -48,7 +48,7 @@ class Recipe(models.Model):
     creator = models.ForeignKey(User, blank=True, null=True)
     num_likes = models.IntegerField(default = 0)
 
-    creationDateTime = models.DateTimeField(default=datetime.date.today)
+    creationDateTime = models.DateTimeField(default=datetime.datetime.now())
 
     def __unicode__(self):
         return self.recipeName
@@ -119,11 +119,13 @@ class RecipeContentForm(ModelForm):
 class Like(models.Model):
     user = models.ForeignKey(User, blank=False, null=False)
     recipe = models.ForeignKey(Recipe, blank=False, null=False)
+    creation_time = models.DateTimeField(default=datetime.datetime.now())
     def __unicode__(self):
         return self.user.username + " - "  + self.recipe.recipeName
 
 class Tag(models.Model):
     description = models.CharField(max_length=20, primary_key=True)
+    creation_time = models.DateTimeField(default=datetime.datetime.now())
     def __unicode__(self):
         return self.description
 
@@ -141,6 +143,7 @@ class Mutate(models.Model):
     user = models.ForeignKey(User, blank=False, null=False)
     source_recipe = models.ForeignKey(Recipe, related_name="s+")
     mutated_recipe = models.ForeignKey(Recipe, related_name="m+")
+    creation_time = models.DateTimeField(default=datetime.datetime.now())
 
     def __unicode__(self):
         return self.user.username + " - " + self.source_recipe.recipeName + " - " + self.mutated_recipe.recipeName

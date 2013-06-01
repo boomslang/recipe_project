@@ -178,11 +178,9 @@ def recipe_view(request, recipe_id = None):
     ids = RecipeAndRecipeContent.objects.values_list('recipe_content', flat=True).filter(recipe=recipe)
     recipe_contents = RecipeContent.objects.filter(pk__in=set(ids))
 
-    recipeTags = UserTagRecipe.objects.filter(recipe=recipe)
+    recipeTags = UserTagRecipe.objects.filter(recipe=recipe).values('tag').distinct()
 
-
-
-
+    recipeTags = [tag['tag'] for tag in recipeTags]
 
     content = []
     for recipe_content in recipe_contents:
@@ -220,18 +218,17 @@ def tag_view(request, recipe_id = None):
         TagFormset=TagForm(request.POST, request.FILES)
 
         if TagFormset.has_changed():
+            tag_str = TagFormset.data['description']
+            tag_str = tag_str.lower().replace(" ","_")
             try:
-                tags = Tag.objects.get(description=TagFormset.data['description'])
+                tags = Tag.objects.get(description=tag_str)
 
             except ObjectDoesNotExist:
-                tags = Tag.objects.create(description=TagFormset.data['description'])
+                tags = Tag.objects.create(description=tag_str)
                 tags.save()
 
-            try:
-                user_tags=UserTagRecipe.objects.get(user=request.user, recipe=recipe, tag=tags)
-            except ObjectDoesNotExist:
-                user_tags=UserTagRecipe.objects.create(user=request.user, recipe=recipe, tag=tags)
-                user_tags.save()
+            user_tags=UserTagRecipe.objects.get_or_create(user=request.user, recipe=recipe, tag=tags)
+
 
         return HttpResponseRedirect('/r/%s' % recipe.id)
 
