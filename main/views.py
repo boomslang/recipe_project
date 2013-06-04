@@ -19,9 +19,12 @@ from recipe_project.settings import STATIC_URL
 
 from datetime import datetime
 
+# import rdflib
+
 def mainPage_view(request):
-    add_ingredients()
-    add_measurement_units()
+
+    # add_ingredients()
+    # add_measurement_units()
 
     page_size = 5
     recipe_list = []
@@ -137,8 +140,8 @@ def create_view(request):
     else:
         recipe_form = RecipeForm(request.POST, instance=Recipe())
         rc_forms = [RecipeContentForm(request.POST, prefix=str(x), instance=RecipeContent()) for x in range(0,max_ingredients)]
-        for f in rc_forms:
-            print f.has_changed()
+        # for f in rc_forms:
+        #     print f.has_changed()
 
         if recipe_form.is_valid() and any([rc_form.is_valid() for rc_form in rc_forms]):
             recipe = Recipe.objects.create()
@@ -292,8 +295,8 @@ def mutate_view(request, recipe_id = None):
     else:
         recipe_form = RecipeForm(request.POST, instance=Recipe())
         rc_forms = [RecipeContentForm(request.POST, prefix=str(x), instance=RecipeContent()) for x in range(0,max_ingredients)]
-        for f in rc_forms:
-            print f.has_changed()
+        # for f in rc_forms:
+        #     print f.has_changed()
 
         if recipe_form.is_valid() and any([rc_form.is_valid() for rc_form in rc_forms]):
             recipe = Recipe.objects.create()
