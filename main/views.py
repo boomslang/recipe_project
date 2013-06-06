@@ -14,14 +14,171 @@ from django.shortcuts import render_to_response
 from django.contrib import messages
 from django.forms.models import modelformset_factory
 from django.forms.models import modelform_factory
-from main.models import UserForm, UserProfile, RecipeForm, Recipe, RecipeContent, RecipeContentForm, Ingredient, MeasurementUnit, Like, Mutate, ReplacedIngredients, Tag,TagForm, UserTagRecipe, SearchForm, RecipeAndRecipeContent, Replacement, MutateAndReplacement
+
+from main.models import UserForm, UserProfile, RecipeForm, Recipe, RecipeContent, RecipeContentForm, Ingredient, MeasurementUnit, Like, Mutate, ReplacedIngredients, Tag,TagForm, UserTagRecipe, SearchForm, RecipeAndRecipeContent, Replacement, MutateAndReplacement, TaggingTime
 from recipe_project.settings import STATIC_URL
 
 from datetime import datetime
 
-# import rdflib
+import rdflib
+from rdflib import BNode
+from rdflib.namespace import Namespace, RDF, XSD
+from rdflib.term import Literal
+
+def recover_tagging_time():
+    utrs = UserTagRecipe.objects.all()
+    for utr in utrs:
+        try:
+            TaggingTime.objects.get(utr=utr)
+        except:
+            TaggingTime.objects.create(utr=utr, creation_time=utr.tag.creation_time)
+
+def dump_to_rdf(request):
+    g = rdflib.Graph()
+    R = Namespace("http://www.semanticweb.org/orhanbilgin/ontologies/2013/4/untitled-ontology-82#")
+    RC = Namespace("http://www.semanticweb.org/orhanbilgin/ontologies/2013/4/untitled-ontology-84#")
+    SemSNA = Namespace("http://ns.inria.fr/semsna/2009/06/21/voc#")
+    g.parse("/home/murat/Coco Project/ontoloji/recipe.owl")
+    g.parse("/home/murat/Coco Project/ontoloji/recipe_community.owl")
+    g.parse("/home/murat/Coco Project/ontoloji/voc.rdf")
+
+    users = User.objects.all()
+    for user in users:
+        statementId = BNode()
+        g.add((statementId, RDF.type, RC['User']))
+        g.add((statementId, RC['hasName'], Literal(user.username, datatype=XSD.string)))
+
+
+    ingredients = Ingredient.objects.all()
+    for ingredient in ingredients:
+        statementId = BNode()
+        g.add((statementId, RDF.type, R['Ingredient']))
+        g.add((statementId, R['hasName'], Literal(ingredient.ingredientName, datatype=XSD.string)))
+
+    measurement_units = MeasurementUnit.objects.all()
+    for measurement_unit in measurement_units:
+        statementId = BNode()
+        g.add((statementId, RDF.type, R['MeasurementUnit']))
+        g.add((statementId, R['hasName'], Literal(measurement_unit.measurementUnitName, datatype=XSD.string)))
+
+    recipes = Recipe.objects.all()
+    for recipe in recipes:
+        recipe_iri = BNode()
+        g.add((recipe_iri, RDF.type, R['Recipe']))
+        g.add((recipe_iri, R['hasName'], Literal(recipe.recipeName, datatype=XSD.string)))
+        g.add((recipe_iri, R['hasDescription'], Literal(recipe.recipeDesc, datatype=XSD.string)))
+
+        #Adding an instance of the Create Activity
+        user_iri = g.subjects(RC['hasName'],Literal(recipe.creator.username, datatype=XSD.string))
+        user_iri = g.value(predicate=RC['hasName'],object=Literal(recipe.creator.username, datatype=XSD.string))
+
+        activity_iri = BNode()
+
+        g.add((activity_iri, RDF.type, RC['CreateActivity']))
+        g.add((activity_iri, RC['hasTime'], Literal(recipe.creationDateTime, datatype=XSD.dateTime)))
+        g.add((activity_iri, RC['involvesRecipe'], recipe_iri))
+        g.add((activity_iri, RC['involvesUser'], user_iri))
+
+    rcs = RecipeContent.objects.all()
+    for rc in rcs:
+        mu_iri = g.value(predicate=R['hasName'],object=Literal(rc.measurementUnit.measurementUnitName, datatype=XSD.string))
+        ingredient_iri = g.value(predicate = R['hasName'], object = Literal(rc.ingredient.ingredientName, datatype=XSD.string))
+
+        soi_iri = BNode()
+        request.session[rc] = soi_iri
+        g.add((soi_iri, RDF.type, R['SetOfIngredients']))
+        g.add((soi_iri, R['hasMeasurementUnit'], mu_iri))
+        g.add((soi_iri, R['hasIngredient'], ingredient_iri))
+        g.add((soi_iri, R['hasAmount'], Literal(rc.quantity, datatype=XSD.integer)))
+
+        rrcs = RecipeAndRecipeContent.objects.filter(recipe_content=rc)
+        for rrc in rrcs:
+            recipe = rrc.recipe
+            recipe_iri = g.value(predicate=R['hasName'], object=Literal(recipe.recipeName, datatype=XSD.string))
+
+            statementId = BNode()
+            g.add((recipe_iri, R['hasSetOfIngredients'], soi_iri))
+
+    likes = Like.objects.all()
+    for like in likes:
+        user_iri = g.value(predicate = RC['hasName'], object = Literal(like.user.username, datatype=XSD.string))
+        recipe_iri = g.value(predicate = R['hasName'], object = Literal(like.recipe.recipeName, datatype=XSD.string))
+
+        activity_iri = BNode()
+
+        g.add((activity_iri, RDF.type, RC['LikeActivity']))
+        g.add((activity_iri, RC['hasTime'], Literal(like.creation_time, datatype=XSD.dateTime)))
+        g.add((activity_iri, RC['involvesRecipe'], recipe_iri))
+        g.add((activity_iri, RC['involvesUser'], user_iri))
+
+
+    mutations = Mutate.objects.all()
+    for mutation in mutations:
+        user_iri = g.value(predicate=RC['hasName'],object=Literal(mutation.user.username, datatype=XSD.string))
+        source_iri = g.value(predicate = R['hasName'], object = Literal(mutation.source_recipe.recipeName, datatype=XSD.string))
+        target_iri = g.value(predicate = R['hasName'], object = Literal(mutation.mutated_recipe.recipeName, datatype=XSD.string))
+
+        activity_iri = BNode()
+        request.session['mutation'+str(mutation.id)] = activity_iri
+        g.add((activity_iri, RDF.type, RC['LikeActivity']))
+        g.add((activity_iri, RC['hasTime'], Literal(mutation.creation_time, datatype=XSD.dateTime)))
+        g.add((activity_iri, RC['involvesSourceRecipe'], source_iri))
+        g.add((activity_iri, RC['involvesTargetRecipe'], target_iri))
+        g.add((activity_iri, RC['involvesUser'], user_iri))
+
+    replacements = Replacement.objects.all()
+    for replacement in replacements:
+        source_iri = request.session[replacement.original_rc]
+        target_iri = request.session[replacement.new_rc]
+
+        replacement_iri = BNode()
+        g.add((replacement_iri, RDF.type, R['Replacement']))
+        g.add((replacement_iri, R['involvesSourceSOI'], source_iri))
+        g.add((replacement_iri, R['involvesTargetSOI'], target_iri))
+
+        mrs = MutateAndReplacement.objects.filter(replacement=replacement)
+        for mr in mrs:
+            mutation_iri = request.session['mutation'+str(mr.mutation_id)]
+            g.add((mutation_iri, RC['involvesReplacement'], replacement_iri))
+
+
+
+    tags = Tag.objects.all()
+    for tag in tags:
+        tag_iri = BNode()
+        g.add((tag_iri , RDF.type, R['Tag']))
+        g.add((tag_iri, R['hasName'], Literal(tag.description, datatype=XSD.string)))
+
+
+    utrs = UserTagRecipe.objects.all()
+    for utr in utrs:
+
+        user_iri = g.value(predicate=RC['hasName'],object=Literal(utr.user.username, datatype=XSD.string))
+        tag_iri = g.value(predicate = R['hasName'], object = Literal(utr.tag.description, datatype=XSD.string))
+        recipe_iri = g.value(predicate = R['hasName'], object = Literal(utr.recipe.recipeName, datatype=XSD.string))
+        activity_iri = BNode()
+
+        g.add((activity_iri, RDF.type, RC['TagActivity']))
+        g.add((activity_iri, RC['involvesTag'], tag_iri))
+        g.add((activity_iri, RC['involvesRecipe'], recipe_iri))
+        g.add((activity_iri, RC['involvesUser'], user_iri))
+        g.add((recipe_iri, R['hasTag'], tag_iri))
+        try:
+            tagging_time = TaggingTime.objects.get(utr=utr).creation_time
+            g.add((activity_iri, RC['hasTime'], Literal(tagging_time, datatype=XSD.dateTime)))
+        except:
+            pass
+
+    # [g.add((s, RECO['name'], n))
+    # for s,_,n in g.triples((None, RECO['member_name'], None))]
+    g.serialize("/home/murat/Coco Project/repo.txt")
+    request.session.flush()
+    return
+
 
 def mainPage_view(request):
+    # recover_tagging_time()
+    # dump_to_rdf(request)
 
     # add_ingredients()
     # add_measurement_units()
@@ -223,15 +380,12 @@ def tag_view(request, recipe_id = None):
         if TagFormset.has_changed():
             tag_str = TagFormset.data['description']
             tag_str = tag_str.lower().replace(" ","_")
-            try:
-                tags = Tag.objects.get(description=tag_str)
 
-            except ObjectDoesNotExist:
-                tags = Tag.objects.create(description=tag_str)
-                tags.save()
+            tag, succeed = Tag.objects.get_or_create(description=tag_str)
 
-            user_tags=UserTagRecipe.objects.get_or_create(user=request.user, recipe=recipe, tag=tags)
+            utr, succeed = UserTagRecipe.objects.get_or_create(user=request.user, recipe=recipe, tag=tag)
 
+            TaggingTime.objects.get_or_create(utr=utr, creation_time=datetime.now())
 
         return HttpResponseRedirect('/r/%s' % recipe.id)
 

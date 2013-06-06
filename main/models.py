@@ -139,6 +139,12 @@ class UserTagRecipe(models.Model):
     def __unicode__(self):
         return self.user.username + " - "  + self.tag.description + " - "  + self.recipe.recipeName
 
+class TaggingTime(models.Model):
+    utr = models.ForeignKey(UserTagRecipe, blank=False, null=False)
+    creation_time = models.DateTimeField(default=datetime.datetime.now())
+    def __unicode__(self):
+        return "tagging_time"+str(self.id)
+
 class Mutate(models.Model):
     user = models.ForeignKey(User, blank=False, null=False)
     source_recipe = models.ForeignKey(Recipe, related_name="s+")
@@ -184,3 +190,4 @@ admin.site.register(UserTagRecipe)
 admin.site.register(RecipeAndRecipeContent)
 admin.site.register(Replacement)
 admin.site.register(MutateAndReplacement)
+admin.site.register(TaggingTime)
