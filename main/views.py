@@ -44,7 +44,7 @@ def dump_to_rdf(request):
 
     users = User.objects.all()
     for user in users:
-        statementId = BNode()
+        statementId = BNode(user.username)
         g.add((statementId, RDF.type, RC['User']))
         g.add((statementId, RC['hasName'], Literal(user.username, datatype=XSD.string)))
 
@@ -63,7 +63,7 @@ def dump_to_rdf(request):
 
     recipes = Recipe.objects.all()
     for recipe in recipes:
-        recipe_iri = BNode()
+        recipe_iri = BNode(recipe.recipeName) # TODO : (murat) Encode the recipe name for URI.
         g.add((recipe_iri, RDF.type, R['Recipe']))
         g.add((recipe_iri, R['hasName'], Literal(recipe.recipeName, datatype=XSD.string)))
         g.add((recipe_iri, R['hasDescription'], Literal(recipe.recipeDesc, datatype=XSD.string)))
@@ -120,7 +120,7 @@ def dump_to_rdf(request):
 
         activity_iri = BNode()
         request.session['mutation'+str(mutation.id)] = activity_iri
-        g.add((activity_iri, RDF.type, RC['LikeActivity']))
+        g.add((activity_iri, RDF.type, RC['MutateActivity']))
         g.add((activity_iri, RC['hasTime'], Literal(mutation.creation_time, datatype=XSD.dateTime)))
         g.add((activity_iri, RC['involvesSourceRecipe'], source_iri))
         g.add((activity_iri, RC['involvesTargetRecipe'], target_iri))
@@ -171,7 +171,7 @@ def dump_to_rdf(request):
 
     # [g.add((s, RECO['name'], n))
     # for s,_,n in g.triples((None, RECO['member_name'], None))]
-    g.serialize("/home/murat/Coco Project/repo.txt")
+    g.serialize("/home/murat/coco_Project/repo.txt")
     request.session.flush()
     return
 
@@ -183,7 +183,7 @@ def mainPage_view(request):
     # add_ingredients()
     # add_measurement_units()
 
-    page_size = 5
+    page_size = 8
     recipe_list = []
     page = request.GET.get('page')
 
